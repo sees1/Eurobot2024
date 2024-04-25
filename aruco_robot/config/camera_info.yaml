@@ -1,0 +1,20 @@
+image_width: 1920
+image_height: 1080
+camera_name: brio
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [838.4274184132257, 0, 936.6293134020109, 0, 837.9642202053174, 564.1945740294977, 0, 0, 1]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 4
+  data: [-0.2262671900473238, 0.02808601594898573, -0.001189901035481455, 0.001970441830366642]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [534.97265625, 0, 973.2859870023094, 0, 0, 743.5029296875, 568.9287217336241, 0, 0, 0, 1, 0]

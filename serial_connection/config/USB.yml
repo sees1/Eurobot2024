@@ -1,0 +1,4 @@
+Motors:
+  port: /dev/ttyACM0
+Lift:
+  port: /dev/ttyACM1

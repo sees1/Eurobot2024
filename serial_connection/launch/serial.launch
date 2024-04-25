@@ -1,0 +1,4 @@
+<launch>
+    <node name="serial_connect" pkg="serial_connection"  type="serial_connection.py" output="screen"/>
+    <rosparam command="load" file="$(find serial_connection)/config/USB.yml" />
+</launch>

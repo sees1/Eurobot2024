@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+
+    <node pkg="aruco_robot" type="plan_blue.py" name="plan_blue.py" output="screen" respawn="false" respawn_delay="0"/>
+
+</launch>
