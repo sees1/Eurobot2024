@@ -20,7 +20,7 @@ class odom():
         self.current_time = rospy.Time.now()
         self.last_time = rospy.Time.now()
 
-        self.odom_pub = rospy.Publisher("/odom", Odometry, queue_size=50)
+        self.odom_pub = rospy.Publisher("/odom", Odometry, queue_size = 50)
         self.sub = rospy.Subscriber('/robot_vel', Vector3Stamped, self.read_vel)
 
         self.odom_broadcaster = tf.TransformBroadcaster()
@@ -28,20 +28,9 @@ class odom():
 
         self.pose_covariance = rospy.get_param("/pose_covariance")
         self.twist_covariance = rospy.get_param("/twist_covariance")
-
-
-    def transform(self):
-        self.odom_quat = tf.transformations.quaternion_from_euler(0, 0, self.th)
-        self.odom_broadcaster.sendTransform(
-                (self.x, self.y, 0.),
-                self.odom_quat,
-                self.current_time,
-                "base_link",
-                "odom"
-                                    )
-        self.sendMsg()
         
     def sendMsg(self):
+        self.odom_quat = tf.transformations.quaternion_from_euler(0, 0, self.th)
         odom = Odometry()
         odom.header.stamp = self.current_time
         odom.header.frame_id = "odom"
@@ -65,7 +54,7 @@ class odom():
         self.th += delta_th
         self.last_time = self.current_time
         #rospy.loginfo('Current x|y|th: ' + str(self.x) + '|' + str(self.y)+ '|' + str(self.th))
-        self.transform()
+        self.sendMsg()
 
     def read_vel(self, data):
         W1 = data.vector.x
