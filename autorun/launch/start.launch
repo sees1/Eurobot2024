@@ -7,7 +7,8 @@
     <include file="$(find odometry_publisher)/launch/odom_pub.launch"/>
     <!-- <include file="$(find rplidar_ros)/launch/rplidar_s2.launch"/> -->
     <include file="$(find serial_connection)/launch/serial.launch"/>
-    <!-- <include file="$(find wt901)/launch/wt901.launch"/> -->
+    <include file="$(find wt901)/launch/wt901_calib.launch"/>
+    <include file="$(find wt901)/launch/wt901.launch"/>
 
     <!-- <node name="static_tf" pkg="autorun"  type="static_tf2_broadcaster.py" output="screen"/> -->
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_lser_static_tf" args="0 0 0.6 1.047 0 0 base_link laser" />

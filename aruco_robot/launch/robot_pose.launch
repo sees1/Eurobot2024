@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <rosparam file="$(find aruco_robot)/config/common.yaml" command="load" ns="" />
-
-    <node pkg="aruco_robot" type="robot_pose.py" name="robot_pose" output="screen" />
-
-</launch>
