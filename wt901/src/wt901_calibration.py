@@ -29,7 +29,7 @@ class wt901:
         send(self.ser, 'FF AA 03 00 00') #Save
         rospy.loginfo(f"Calibration finished")
         send(self.ser, 'FF AA 03 08 00') #Set to 50 HZ (It is max)
-        rospy.loginfo(f"Rate has been set up for 50 HZ")
+        rospy.loginfo(f"Hardware rate has been set up for 50 HZ")
         self.ser.close()
 
 

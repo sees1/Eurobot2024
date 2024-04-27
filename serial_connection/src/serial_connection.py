@@ -12,7 +12,7 @@ class Serial_connection():
         self._robot_pub = rospy.Publisher('/robot_vel', Vector3Stamped, queue_size=1)
         self._getData = rospy.Subscriber("/cmd_vel", Twist, self.send)
         self._startFlag = rospy.Publisher('/startFlag',Bool,queue_size=1)
-        self.ser = serial.Serial('/dev/ttyACM0', 9600, timeout = 1.0)
+        self.ser = serial.Serial('/dev/ttyACM0', 9600, timeout = None)
         #self.liftSer = serial.Serial(rospy.get_param("Lift/port"), 9600, timeout = 1.0)
     
     def send(self,data):
