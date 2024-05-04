@@ -5,16 +5,21 @@
 
     <!-- Map server -->
     <arg name="map_file" default="$(find aruco_robot)/map/map_1.yaml"/>
-    <node pkg="map_server" name="map_server"  type="map_server" args="$(arg map_file)" />
+
+    <node pkg="map_server" name="map_server"  type="map_server" args="$(arg map_file)">
+      <param name="frame_id" value="earth"/>
+    </node>
 
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-        <rosparam file="$(find aruco_robot)/cfg_nav/costmap_common_params.yaml" command="load" ns="global_costmap" />
-        <rosparam file="$(find aruco_robot)/cfg_nav/costmap_common_params.yaml" command="load" ns="local_costmap" />
-        <rosparam file="$(find aruco_robot)/cfg_nav/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find aruco_robot)/cfg_nav/global_costmap_params.yaml" command="load" />
-        <rosparam file="$(find aruco_robot)/cfg_nav/base_local_planner_holonomic_params.yaml" command="load" />
-        <rosparam file="$(find aruco_robot)/cfg_nav/move_base_params.yaml" command="load" />
+        <rosparam file="$(find aruco_robot)/cfg_nav/costmap_common_params.yaml"    command="load" ns="global_costmap" />
+        <rosparam file="$(find aruco_robot)/cfg_nav/costmap_common_params.yaml"    command="load" ns="local_costmap" />
+        <rosparam file="$(find aruco_robot)/cfg_nav/local_costmap_params.yaml"     command="load" />
+        <rosparam file="$(find aruco_robot)/cfg_nav/global_costmap_params.yaml"    command="load" />
+        <rosparam file="$(find aruco_robot)/cfg_nav/teb_local_planner_params.yaml" command="load" />
+        <rosparam file="$(find aruco_robot)/cfg_nav/move_base_params.yaml"         command="load" />
+
+        <remap from="odom" to="odometry/filtered_odom"/>
     </node>
 
 </launch>
