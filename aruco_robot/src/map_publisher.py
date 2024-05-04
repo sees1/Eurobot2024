@@ -82,7 +82,7 @@ class MapPublisher():
 
         # mapOffset = (-0.75, -0.5)
 
-        mapOffset = (0,0)
+        mapOffset = (-0.75, -0.5)
 
         tf_marker_22_map = TransformStamped()
         tf_marker_22_map.header.stamp = rospy.Time.now()
@@ -101,7 +101,7 @@ class MapPublisher():
         tf_map = TransformStamped()
         tf_map.header.stamp = rospy.Time.now()
         tf_map.header.frame_id = "marker_22_map"
-        tf_map.child_frame_id = "map"
+        tf_map.child_frame_id = "earth"
 
         tf_map.transform.translation.x = mapOffset[0]
         tf_map.transform.translation.y = mapOffset[1]
