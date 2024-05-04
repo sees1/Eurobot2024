@@ -40,7 +40,7 @@ permit_corrected_publication: false
 map_frame: map              # Defaults to "map" if unspecified
 odom_frame: odom            # Defaults to "odom" if unspecified
 base_link_frame: base_link  # Defaults to "base_link" if unspecified
-world_frame: odom           # Defaults to the value of odom_frame if unspecified
+world_frame: map           # Defaults to the value of odom_frame if unspecified
 
 # The filter accepts an arbitrary number of inputs from each input message type (nav_msgs/Odometry,
 # geometry_msgs/PoseWithCovarianceStamped, geometry_msgs/TwistWithCovarianceStamped,
@@ -81,39 +81,40 @@ world_frame: odom           # Defaults to the value of odom_frame if unspecified
 # odom0_twist_rejection_threshold: 1
 
 # Further input parameter examples
-odom0: /odom
-odom0_config: [true, true, false,
-               false, false, true,
-               true,  true, false,
-               false, false, true,
-               false, false, false]
-odom0_differential: false
-odom0_relative: true
-odom0_nodelay: true
-odom0_queue_size: 10
-
-# pose0: /robot_pose_aruco
-# pose0_config: [true, true,  false,
+# odom0: /odom
+# odom0_config: [true, true, false,
 #                false, false, true,
-#                false, false, false,
+#                true,  true, false,
 #                false, false, false,
 #                false, false, false]
-# pose0_differential: false
-# pose0_relative: false
-# pose0_nodelay: false
-# pose0_queue_size: 10
+# odom0_differential: false
+# odom0_relative: false
+# odom0_nodelay: true
+# odom0_queue_size: 10
 
-imu0: imu/data
-imu0_config: [false, false, false,
-              false, false, false,
-              false, false, false,
-              false, false, true,
-              true,  true,  false]
-imu0_differential: false
-imu0_relative: true
-imu0_nodelay: false
-imu0_linear_acceleration_rejection_threshold: 0.1
-imu0_queque_size: 10
+pose0: /robot_pose_aruco
+pose0_config: [true, true,  false,
+               false, false, true,
+               false, false, false,
+               false, false, false,
+               false, false, false]
+pose0_differential: false
+pose0_relative: false
+pose0_nodelay: false
+pose0_rejection_threshold: 0.05
+pose0_queue_size: 10
+
+# imu0: imu/data
+# imu0_config: [false, false, false,
+#               false, false, false,
+#               false, false, false,
+#               false, false, false,
+#               true, true,  false]
+# imu0_differential: false
+# imu0_relative: false
+# imu0_nodelay: false
+# imu0_queue_size: 10
+
 
 # odom0_queue_size: 2
 # # odom0_pose_rejection_threshold: 2
@@ -142,29 +143,26 @@ imu0_queque_size: 10
 # twist0_rejection_threshold: 2
 # twist0_nodelay: false
 
-# use_control: true
 
-# control_config : [true, true, false,
-#                   false, false, true]
+# acceleration_gains: [0.8, 0.0, 0.0, 0.0, 0.0, 0.9]
 
-# acceleration_limits: [0.5, 0.5, 0.0, 0.0, 0.0, 2]
+# deceleration_gains: [1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
 
-# deceleration_limits: [0.5, 0.5, 0.0, 0.0, 0.0, 2]
-
-process_noise_covariance: [1e9, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                           0,    1e9, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+# больше значение быстрее включает новые измерения в фильтр!
+process_noise_covariance: [8e2, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    8e2, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                            0,    0,    1e-9, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                            0,    0,    0,    1e-9, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                            0,    0,    0,    0,    1e-9, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
-                           0,    0,    0,    0,    0,    1e9, 0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    8e2, 0,     0,     0,    0,    0,    0,    0,    0,    0,
                            0,    0,    0,    0,    0,    0,    1e-9, 0,     0,    0,    0,    0,    0,    0,    0,
                            0,    0,    0,    0,    0,    0,    0,     1e-9, 0,    0,    0,    0,    0,    0,    0,
                            0,    0,    0,    0,    0,    0,    0,     0,     1e-9, 0,    0,    0,    0,    0,    0,
                            0,    0,    0,    0,    0,    0,    0,     0,     0,    1e-9, 0,    0,    0,    0,    0,
                            0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    1e-9, 0,    0,    0,    0,
-                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0.1, 0,    0,    0,
-                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0.1, 0,    0,
-                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0.1, 0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    1e-9, 0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    1e-9, 0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    1e-9, 0,
                            0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    1e-9]
 
 
