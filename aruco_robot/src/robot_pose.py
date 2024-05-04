@@ -12,14 +12,14 @@ class MapPublisher():
     def __init__(self):
         rospy.init_node('robot_pose_publisher')
 
-        self.robot_id = rospy.get_param("robot_marker_id", 1)
+        self.robot_id        = rospy.get_param("robot_marker_id", 1)
         self.pose_covariance = rospy.get_param("/camera_pose_covariance")
+
         rospy.loginfo(f"Robot marker id is: {self.robot_id}")
 
-        self.tfBuffer = tf2_ros.Buffer(rospy.Duration(5))
+        self.tfBuffer = tf2_ros.Buffer(rospy.Duration(1))
         self.listener = tf2_ros.TransformListener(self.tfBuffer)
 
-        self.br = tf.TransformBroadcaster()
         self.marker_size = rospy.get_param("/robot_marker_size", 0.07)
 
         rospy.loginfo("Waiting for map callibration")
@@ -34,12 +34,9 @@ class MapPublisher():
         except rospy.ServiceException as e:
             rospy.logerr("Service call failed: %s"%e)
 
-        rospy.Subscriber("aruco_detections", ArucoDetection, self.arucoCallback)
+        self.robot_sub      = rospy.Subscriber("aruco_detections", ArucoDetection, self.arucoCallback)
         self.robot_pose_pub = rospy.Publisher("robot_pose_aruco", PoseWithCovarianceStamped, queue_size=5)
             
-        
-    def update(self):
-        pass
 
     def arucoCallback(self, data):
         markers = data.markers
@@ -47,12 +44,9 @@ class MapPublisher():
         robot_marker = None
         for marker in markers:
             if marker.marker_id == self.robot_id:
-                robot_marker = marker
+                self.calcRobotTopic(marker)
 
-        if robot_marker:
-            self.calcRobotTf(robot_marker)
-
-    def calcRobotTf(self, marker):
+    def calcRobotTopic(self, marker):
         #TODO look up for transform!
         try:
             trans = self.tfBuffer.lookup_transform('map', f'marker_{self.robot_id}', rospy.Duration(0))
@@ -64,11 +58,6 @@ class MapPublisher():
         # rospy.loginfo(x)
         r,p,y = euler_from_quaternion([x,y,z,w])
         q = quaternion_from_euler(0,0,y)
-        self.br.sendTransform((trans.transform.translation.x, trans.transform.translation.y, 0),
-            q,
-            rospy.Time.now(),
-            "robot_pose_by_camera",
-            "map")
 
         pose = PoseWithCovarianceStamped()
         pose.header.frame_id = "map"
@@ -84,7 +73,6 @@ if __name__ == '__main__':
         mp = MapPublisher()
         rate = rospy.Rate(30)
         while not rospy.is_shutdown():
-            mp.update()
             rate.sleep()
     except rospy.ROSInterruptException:
         pass
