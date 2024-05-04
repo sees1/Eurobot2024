@@ -315,7 +315,9 @@ private:
     std::vector<cv::Vec3d> rvec_final(n_markers), tvec_final(n_markers);
 
     aruco_opencv_msgs::ArucoDetection detection;
-
+    detection.header.frame_id = img_msg->header.frame_id;
+    detection.header.stamp = img_msg->header.stamp;
+    detection.markers.resize(n_markers);
 
     {
       std::lock_guard<std::mutex> guard(cam_info_mutex_);
