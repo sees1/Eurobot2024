@@ -330,6 +330,10 @@ private:
         for (int i = range.start; i < range.end; i++) {
           int id = marker_ids[i];
 
+          // версия на opencv на моем компе > 4, значит, используют этот метод
+          // в основе которотого лежат 4 копланарные метки (лежат в одной плоскости)
+          // у нас же на роботе 5 меток, одна из которых (на роботе) точно не копланарна
+          // 4 ем остальным на земле
 #if CV_VERSION_MAJOR >= 4
           cv::solvePnP(marker_obj_points_, marker_corners[i], camera_matrix_, distortion_coeffs_,
                        rvec_final[i], tvec_final[i], false, cv::SOLVEPNP_IPPE_SQUARE);
