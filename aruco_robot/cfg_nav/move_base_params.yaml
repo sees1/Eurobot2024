@@ -1,7 +1,7 @@
 base_global_planner: global_planner/GlobalPlanner
-base_local_planner: neo_local_planner/NeoLocalPlanner
+base_local_planner: teb_local_planner/TebLocalPlannerROS
 
-controller_frequency: 10.0
+controller_frequency: 20.0
 #The rate in Hz at which to run the control loop and send velocity commands to the base. (double, default: 20.0) 
 
 planner_patience: 5.0
@@ -16,7 +16,7 @@ conservative_reset_dist: 3.0
 #The distance away from the robot in meters beyond which obstacles will be cleared from the costmap when attempting to clear space in the map. 
 #Note, this parameter is only used when the default recovery behaviors are used for move_base.(double, default: 3.0) 
 
-recovery_behavior_enabled: true
+recovery_behavior_enabled: false
 #Whether or not to enable the move_base recovery behaviors to attempt to clear out space. (bool, default: true)
 
 clearing_rotation_allowed: false

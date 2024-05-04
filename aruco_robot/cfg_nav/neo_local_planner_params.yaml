@@ -34,13 +34,13 @@ NeoLocalPlanner:
   min_trans_vel : 0.1
 
   # The tolerance in radians for the controller in yaw/rotation when achieving its goal
-  yaw_goal_tolerance : 0.01
+  yaw_goal_tolerance : 0.1
 
   # The tolerance in meters for the controller in the x & y distance when achieving a goal
-  xy_goal_tolerance : 0.02
+  xy_goal_tolerance : 0.1
 
   # How long to fine tune for goal position after reaching tolerance limits [s]
-  goal_tune_time : 3
+  goal_tune_time : 0
 
   # How far to predict control pose into the future based on latest odometry [s]
   lookahead_time : 0.4
@@ -49,7 +49,7 @@ NeoLocalPlanner:
   lookahead_dist : 0.5
 
   # Threshold yaw error below which we consider to start moving [rad]
-  start_yaw_error : 0.5
+  start_yaw_error : 1
 
   # Gain when adjusting final x position for goal [1/s]
   pos_x_gain : 1
