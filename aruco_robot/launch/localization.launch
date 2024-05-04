@@ -4,7 +4,9 @@
     <rosparam file="$(find aruco_robot)/config/common.yaml" command="load" ns="" />
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="imu_to_base_link" args="0 0 0 0 0 0 base_link imu" />
-    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom_link" args="0.22 1.775 0 0 0 0 map odom" />
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="brio_to_real_brio" args="0 0 0 0.2 0 0 brio real_brio" /> -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="earth_to_map_link" args="0.75 0.5 0 0 0 0 earth map" />
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom_link" args="0.22 1.775 0 0 0 0 map odom" /> -->
 
     <include file="$(find aruco_robot)/launch/map_callibration.launch" />
     <include file="$(find aruco_robot)/launch/robot_pose.launch" />
