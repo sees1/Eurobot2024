@@ -4,8 +4,8 @@ TebLocalPlannerROS:
   
  teb_autosize: True
  dt_ref: 0.3
- dt_hysteresis: 0.1
- max_samples: 500
+ dt_hysteresis: 0.03
+ max_samples: 100
  global_plan_overwrite_orientation: True
  allow_init_with_backwards_motion: False
  max_global_plan_lookahead_dist: 3.0
@@ -20,18 +20,19 @@ TebLocalPlannerROS:
  max_vel_x: 0.2
  max_vel_x_backwards: 0.2
  max_vel_y: 0.2
- max_vel_theta: 0.2
- acc_lim_x: 0.2
+ max_vel_theta: 0.4
+ acc_lim_x: 0.1
  acc_lim_y: 0.1
  acc_lim_theta: 0.2
  min_turning_radius: 0.0 # omni-drive robot (can turn on place!)
 
  footprint_model:
-   type: "point"
+   type: "circle"
+   radius: 0.2
 
  # GoalTolerance
     
- xy_goal_tolerance: 0.1
+ xy_goal_tolerance: 0.01
  yaw_goal_tolerance: 0.01
  free_goal_vel: False
  complete_global_plan: True
@@ -51,19 +52,19 @@ TebLocalPlannerROS:
     
  no_inner_iterations: 5
  no_outer_iterations: 4
- optimization_activate: True
+ optimization_activate: true
  optimization_verbose: False
- penalty_epsilon: 0.1
+ penalty_epsilon: 0.01
  obstacle_cost_exponent: 4
  weight_max_vel_x: 2
  weight_max_vel_y: 2
  weight_max_vel_theta: 1
  weight_acc_lim_x: 1
  weight_acc_lim_y: 1
- weight_acc_lim_theta: 1
+ weight_acc_lim_theta: 10
  weight_kinematics_nh: 1 # WE HAVE A HOLONOMIC ROBOT, JUST ADD A SMALL PENALTY
  weight_kinematics_forward_drive: 1
- weight_kinematics_turning_radius: 1
+ weight_kinematics_turning_radius: 10
  weight_optimaltime: 1 # must be > 0
  weight_shortest_path: 0
  weight_obstacle: 100
