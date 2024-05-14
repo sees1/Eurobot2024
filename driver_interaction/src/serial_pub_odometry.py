@@ -26,7 +26,7 @@ class Odom():
 
         self.odom_pub   = rospy.Publisher("/odom", Odometry, queue_size = 10)
         self.start_pub  = rospy.Publisher("/start_engine", Bool, queue_size = 10)
-        self.ser        = serial.Serial('/dev/ttyACM0', 28800, timeout = 1)
+        self.ser        = serial.Serial('/dev/ttyACM0', 9600, timeout = 1)
 
         self.start_flag = Bool()
 
@@ -109,7 +109,7 @@ class Odom():
 if __name__ == '__main__':
     rospy.init_node('odom_publisher')
     odom = Odom()
-    r = rospy.Rate(5)
+    r = rospy.Rate(10)
     while not rospy.is_shutdown():
         odom.serial_read()
         r.sleep()
