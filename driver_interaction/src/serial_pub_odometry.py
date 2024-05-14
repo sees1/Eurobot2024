@@ -112,7 +112,6 @@ if __name__ == '__main__':
     r = rospy.Rate(30)
     while(True):
         odom.serial_read()
-        r.sleep()
     
 
 
