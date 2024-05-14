@@ -43,7 +43,7 @@ class Odom():
         odom.child_frame_id = "base_link"
 
         odom_quat = tf.transformations.quaternion_from_euler(0, 0, self.th)
-        odom.pose.pose = Pose(Point(self.x, self.y, 0.), Quaternion(odom_quat))
+        odom.pose.pose = Pose(Point(self.x, self.y, 0.), Quaternion(*odom_quat))
         odom.twist.twist = Twist(Vector3(self.curentVx, self.curentVy, 0), Vector3(0, 0, self.curentW))
 
         odom.pose.covariance = self.pose_covariance

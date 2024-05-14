@@ -6,7 +6,7 @@
 
     <include file="$(find driver_interaction)/launch/driver_connection.launch"/>
     <include file="$(find rplidar_ros)/launch/rplidar_s2.launch"/>
-    <include file="$(find wt901)/launch/wt901_calib.launch/>"/>
+    <include file="$(find wt901)/launch/wt901_calib.launch"/>
     <include file="$(find wt901)/launch/wt901.launch"/>
 
     <!-- <node name="static_tf" pkg="autorun"  type="static_tf2_broadcaster.py" output="screen"/> -->
