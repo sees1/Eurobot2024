@@ -24,9 +24,9 @@ class Odom():
         self.current_time = rospy.Time.now()
         self.last_time    = rospy.Time.now()
 
-        self.odom_pub   = rospy.Publisher("/odom", Odometry, queue_size = 1)
-        self.start_pub  = rospy.Publisher("/start_engine", Bool, queue_size = 1)
-        self.ser        = serial.Serial('/dev/ttyACM0', 28800, timeout = None)
+        self.odom_pub   = rospy.Publisher("/odom", Odometry, queue_size = 10)
+        self.start_pub  = rospy.Publisher("/start_engine", Bool, queue_size = 10)
+        self.ser        = serial.Serial('/dev/ttyACM0', 28800, timeout = 1)
 
         self.start_flag = Bool()
 
