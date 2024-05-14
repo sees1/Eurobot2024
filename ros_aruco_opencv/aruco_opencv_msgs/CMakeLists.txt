@@ -15,6 +15,11 @@ add_message_files(
     MarkerPose.msg
 )
 
+add_service_files(
+  FILES
+  MarkerSize.srv
+)
+
 generate_messages(
   DEPENDENCIES
     geometry_msgs
