@@ -6,7 +6,7 @@ class CmdToDriver():
 
     def __init__(self):
         self.cmd_sub  = rospy.Subscriber("/cmd_vel", Twist, self.send_to_driver)
-        self.ser      = serial.Serial('/dev/ttyACM0', 9600, timeout = 1.0)
+        self.ser      = serial.Serial('/dev/ttyACM0', 28800, timeout = 1.0)
         #self.liftSer = serial.Serial(rospy.get_param("Lift/port"), 9600, timeout = 1.0)
     
     def send_to_driver(self, data):
