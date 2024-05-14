@@ -24,8 +24,8 @@ class Odom():
         self.current_time = rospy.Time.now()
         self.last_time    = rospy.Time.now()
 
-        self.odom_pub   = rospy.Publisher("/odom", Odometry, queue_size=50)
-        self.start_pub  = rospy.Publisher("/start_engine", Bool, queue_size=1)
+        self.odom_pub   = rospy.Publisher("/odom", Odometry, queue_size=None)
+        self.start_pub  = rospy.Publisher("/start_engine", Bool, queue_size=None)
         self.ser        = serial.Serial('/dev/ttyACM0', 28800, timeout = 1.0)
 
         self.start_flag = Bool()
@@ -109,7 +109,7 @@ class Odom():
 if __name__ == '__main__':
     rospy.init_node('odom_publisher')
     odom = Odom()
-    rospy.Timer(rospy.Duration(1.0/20.0), odom.serial_read)
+    rospy.Timer(rospy.Duration(1.0/30.0), odom.serial_read)
     rospy.spin()
     
 

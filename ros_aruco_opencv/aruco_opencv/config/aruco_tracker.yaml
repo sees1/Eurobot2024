@@ -5,7 +5,7 @@ marker_dict: 4X4_50
 
 publish_tf: true
 marker_size: 0.1
-image_queue_size: 10
+image_queue_size: 1
 
 # Dynamically reconfigurable Detector parameters
 # https://docs.opencv.org/4.2.0/d5/dae/tutorial_aruco_detection.html
