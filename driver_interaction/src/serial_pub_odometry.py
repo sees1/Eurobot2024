@@ -111,7 +111,7 @@ if __name__ == '__main__':
     odom = Odom()
     while not rospy.is_shutdown():
         odom.serial_read()
-        rospy.sleep(rospy.Duration(1.0 / 30.0))
+        rospy.sleep(rospy.Duration(0.03))
     
 
 
