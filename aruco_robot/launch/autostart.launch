@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- <param name="/use_sim_time" value="true"/> -->
+
+  <include file="$(find aruco_robot)/launch/localization.launch" />
+  <include file="$(find aruco_robot)/launch/move_base.launch" />
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find aruco_robot)/rviz/default.rviz" />
+
+</launch>

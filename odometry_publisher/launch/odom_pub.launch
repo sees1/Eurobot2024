@@ -1,3 +1,0 @@
-<launch>
-    <node name="odom_pub" pkg="odometry_publisher"  type="odometry_script.py" output="screen"/>
-</launch>

@@ -1,0 +1,14 @@
+<launch>
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_map_odom" clear_params="true" respawn="true">
+    <rosparam command="load" file="$(find aruco_robot)/config/ekf_map.yaml"/>
+    <remap from="odometry/filtered" to="odometry/filtered_odom" />
+  </node>
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_odom_map" clear_params="true" respawn="true">
+    <rosparam command="load" file="$(find aruco_robot)/config/ekf_odom.yaml"/>
+    <remap from="odometry/filtered" to="odometry/filtered_map" />
+  </node>
+
+
+</launch>

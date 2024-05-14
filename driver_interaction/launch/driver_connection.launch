@@ -1,0 +1,5 @@
+<launch>
+    <rosparam command="load" file="$(find serial_connection)/config/USB.yml" />
+    <node name="driver_connection" pkg="driver_interaction" type="serial_pub_odometry.py" output="screen" respawn="true"/>
+    <node name="driver_connection" pkg="driver_interaction" type="serial_write_vel.py"    output="screen" respawn="true"/>
+</launch>
