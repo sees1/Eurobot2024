@@ -14,7 +14,7 @@ def callback(data):
 def timer_publisher():
     rospy.init_node('time_publisher', anonymous=True)
     pub = rospy.Publisher('/timer_check', Float64, queue_size=10)
-    rospy.Subscriber('/startFlag', Bool, callback)
+    rospy.Subscriber('/start_engine', Bool, callback)
 
     while not rospy.is_shutdown():
         if start_time is not None:
