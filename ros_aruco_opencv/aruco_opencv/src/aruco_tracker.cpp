@@ -39,6 +39,7 @@
 #include <aruco_opencv/ArucoDetectorConfig.h>
 #include <aruco_opencv/utils.hpp>
 #include <aruco_opencv_msgs/ArucoDetection.h>
+#include <aruco_opencv_msgs/MarkerSize.h>
 
 namespace aruco_opencv {
 
@@ -96,6 +97,9 @@ private:
 
     retrieve_parameters(pnh);
 
+    ros::ServiceServer marker_service = nh.advertiseService("set_marker_size",
+                          &ArucoTracker::set_marker_size, this);
+
     if (ARUCO_DICT_MAP.find(marker_dict_) == ARUCO_DICT_MAP.end()) {
       ROS_ERROR_STREAM("Unsupported dictionary name: " << marker_dict_);
       return;
@@ -116,16 +120,13 @@ private:
       tf_broadcaster_ = new tf2_ros::TransformBroadcaster();
 
     // set coordinate system in the middle of the marker, with Z pointing out
-    marker_obj_points_.ptr<cv::Vec3f>(0)[0] = cv::Vec3f(-marker_size_ / 2.f, marker_size_ / 2.f, 0);
-    marker_obj_points_.ptr<cv::Vec3f>(0)[1] = cv::Vec3f(marker_size_ / 2.f, marker_size_ / 2.f, 0);
-    marker_obj_points_.ptr<cv::Vec3f>(0)[2] = cv::Vec3f(marker_size_ / 2.f, -marker_size_ / 2.f, 0);
-    marker_obj_points_.ptr<cv::Vec3f>(0)[3] =
-        cv::Vec3f(-marker_size_ / 2.f, -marker_size_ / 2.f, 0);
+    set_marker_obj_points();
 
     it_ = new image_transport::ImageTransport(nh);
     pit_ = new image_transport::ImageTransport(pnh);
 
     detection_pub_ = nh.advertise<aruco_opencv_msgs::ArucoDetection>("aruco_detections", 5);
+
     debug_pub_ = pit_->advertise("debug", 1);
 
     NODELET_INFO("Waiting for first camera info...");
@@ -135,6 +136,24 @@ private:
 
     img_sub_ =
         it_->subscribe(cam_base_topic_, image_queue_size_, &ArucoTracker::callback_image, this);
+  
+    ros::spin();
+  }
+
+  void set_marker_obj_points(){
+    marker_obj_points_.ptr<cv::Vec3f>(0)[0] = cv::Vec3f(-marker_size_ / 2.f, marker_size_ / 2.f, 0);
+    marker_obj_points_.ptr<cv::Vec3f>(0)[1] = cv::Vec3f(marker_size_ / 2.f, marker_size_ / 2.f, 0);
+    marker_obj_points_.ptr<cv::Vec3f>(0)[2] = cv::Vec3f(marker_size_ / 2.f, -marker_size_ / 2.f, 0);
+    marker_obj_points_.ptr<cv::Vec3f>(0)[3] =
+        cv::Vec3f(-marker_size_ / 2.f, -marker_size_ / 2.f, 0);
+  }
+
+  bool set_marker_size(aruco_opencv_msgs::MarkerSize::Request  &req,
+         aruco_opencv_msgs::MarkerSize::Response &res) {
+    marker_size_ = req.marker_size;
+    set_marker_obj_points();
+    res.response = "New marker size is :" + std::to_string(marker_size_);
+    return true;
   }
 
   void retrieve_parameters(ros::NodeHandle &pnh) {
@@ -296,9 +315,7 @@ private:
     std::vector<cv::Vec3d> rvec_final(n_markers), tvec_final(n_markers);
 
     aruco_opencv_msgs::ArucoDetection detection;
-    detection.header.frame_id = img_msg->header.frame_id;
-    detection.header.stamp = img_msg->header.stamp;
-    detection.markers.resize(n_markers);
+
 
     {
       std::lock_guard<std::mutex> guard(cam_info_mutex_);

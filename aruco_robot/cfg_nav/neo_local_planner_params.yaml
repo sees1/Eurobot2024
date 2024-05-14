@@ -25,13 +25,13 @@ NeoLocalPlanner:
   max_rot_vel : 0.1
 
   # The absolute value of the minimum rotational velocity for the robot in rad/s
-  min_rot_vel : 0.02
+  min_rot_vel : 0.05
 
   # The absolute value of the maximum translational velocity for the robot in m/s
   max_trans_vel : 0.2
 
   # The absolute value of the minimum translational velocity for the robot in m/s
-  min_trans_vel : 0.1
+  min_trans_vel : 0.05
 
   # The tolerance in radians for the controller in yaw/rotation when achieving its goal
   yaw_goal_tolerance : 0.1
