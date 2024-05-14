@@ -1,4 +1,4 @@
-cam_base_topic: usb_cam/image_raw
+cam_base_topic: camera/image_raw
 image_is_rectified: false
 output_frame: ''
 
