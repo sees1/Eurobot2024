@@ -109,9 +109,10 @@ class Odom():
 if __name__ == '__main__':
     rospy.init_node('odom_publisher')
     odom = Odom()
+    r = rospy.Rate(30)
     while not rospy.is_shutdown():
         odom.serial_read()
-        rospy.sleep(rospy.Duration(0.03))
+        r.sleep()
     
 
 
