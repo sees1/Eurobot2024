@@ -6,7 +6,7 @@ marker_dict: 4X4_50
 
 publish_tf: true
 marker_size: 0.1
-image_queue_size: 1
+image_queue_size: 10
 
 # Dynamically reconfigurable Detector parameters
 # https://docs.opencv.org/4.2.0/d5/dae/tutorial_aruco_detection.html
@@ -29,7 +29,7 @@ adaptiveThreshConstant: 7
 minMarkerPerimeterRate: 0.03
 # максимальное значение размера маркера на изображении (в пикселях)
 # значение >= 4 начинает учитывать все прямоугольный контура - плохо для производительности
-maxMarkerPerimeterRate: 4.0 # ОБЯЗАТЕЛЬНО ПОМЕНЯТЬ!
+maxMarkerPerimeterRate: 2.0 # ОБЯЗАТЕЛЬНО ПОМЕНЯТЬ!
 # значение ошибки - относительно размера маркера (Perimeter * approxAccuracyRate = кол-во пикселей
 # на которое может ошибиться апроксимация метки в полигон)
 polygonalApproxAccuracyRate: 0.03
