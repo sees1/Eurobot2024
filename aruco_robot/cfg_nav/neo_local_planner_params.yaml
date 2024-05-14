@@ -7,19 +7,19 @@ NeoLocalPlanner:
   acc_lim_y : 0.25
 
   # The rotational acceleration limit of the robot in radians/sec^2
-  acc_lim_theta : 0.8
+  acc_lim_theta : 0.25
 
   # The maximum x velocity for the robot in m/s.
-  max_vel_x : 0.12
+  max_vel_x : 0.2
 
   # The minimum x velocity for the robot in m/s, negative for backwards motion.
-  min_vel_x : -0.12
+  min_vel_x : -0.2
 
   # The maximum y velocity for the robot in m/s
-  max_vel_y : 0.12
+  max_vel_y : 0.2
 
   # The minimum y velocity for the robot in m/s
-  min_vel_y : -0.12
+  min_vel_y : -0.2
 
   # The absolute value of the maximum rotational velocity for the robot in rad/s
   max_rot_vel : 0.1
@@ -40,13 +40,13 @@ NeoLocalPlanner:
   xy_goal_tolerance : 0.1
 
   # How long to fine tune for goal position after reaching tolerance limits [s]
-  goal_tune_time : 0
+  goal_tune_time : 1
 
   # How far to predict control pose into the future based on latest odometry [s]
-  lookahead_time : 0.4
+  lookahead_time : 0.1
 
   # How far to look ahead when computing path orientation [m]
-  lookahead_dist : 0.5
+  lookahead_dist : 0.05
 
   # Threshold yaw error below which we consider to start moving [rad]
   start_yaw_error : 1

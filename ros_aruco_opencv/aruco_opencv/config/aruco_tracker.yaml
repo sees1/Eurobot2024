@@ -1,3 +1,8 @@
+cam_base_topic: usb_cam/image_raw
+image_is_rectified: false
+output_frame: ''
+marker_dict: 4X4_50
+
 publish_tf: true
 marker_size: 0.1
 image_queue_size: 10
