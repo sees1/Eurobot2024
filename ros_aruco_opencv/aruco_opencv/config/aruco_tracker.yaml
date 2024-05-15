@@ -9,10 +9,13 @@ image_queue_size: 1
 
 # Dynamically reconfigurable Detector parameters
 # https://docs.opencv.org/4.2.0/d5/dae/tutorial_aruco_detection.html
+adaptiveThreshWinSizeMin: 3
+adaptiveThreshWinSizeMax: 22
+adaptiveThreshWinSizeStep: 6
 minMarkerPerimeterRate: 0.03
 # максимальное значение размера маркера на изображении (в пикселях)
 # значение >= 4 начинает учитывать все прямоугольный контура - плохо для производительности
-maxMarkerPerimeterRate: 2.0 # ОБЯЗАТЕЛЬНО ПОМЕНЯТЬ!
+maxMarkerPerimeterRate: 0.8 # ОБЯЗАТЕЛЬНО ПОМЕНЯТЬ!
 # значение ошибки - относительно размера маркера (Perimeter * approxAccuracyRate = кол-во пикселей
 # на которое может ошибиться апроксимация метки в полигон)
 polygonalApproxAccuracyRate: 0.03
@@ -46,7 +49,7 @@ maxErroneousBitsInBorderRate: 0.35 # default = 0.35
 # 0.6 использовать только 60 процентов возможностей исправления (обрезают с целью уменьшения)
 # ложно-положительных результатов
 errorCorrectionRate: 0.6
-cornerRefinementMethod: 3 # 0 - None, 1 - Subpix, 2 - Contour, 3 - Apriltag
+cornerRefinementMethod: 2 # 0 - None, 1 - Subpix, 2 - Contour, 3 - Apriltag
 # более высокое значение ( не больше 0.6) - более точное вычисление границ метки
 cornerRefinementWinSize: 0.3 #default = 0.3
 # количество итераций процесса определения границ метки, чем больше - тем лучше, но влияет на перформанс
