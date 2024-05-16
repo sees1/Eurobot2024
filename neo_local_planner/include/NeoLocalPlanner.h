@@ -37,6 +37,7 @@
 
 #include <tf2_ros/buffer.h>
 #include <dynamic_reconfigure/server.h>
+#include <neo_local_planner/NeoLocalPlannerConfig.h>
 #include <angles/angles.h>
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/Path.h>
@@ -70,6 +71,8 @@ public:
 
 private:
 	void odomCallback(const nav_msgs::Odometry::ConstPtr& msg);
+
+	void reconfigureCB(NeoLocalPlannerConfig& config, uint32_t level);
 
 private:
 	tf2_ros::Buffer* m_tf = 0;
@@ -138,6 +141,8 @@ private:
 	double m_last_control_values[3] = {};
 	geometry_msgs::Twist m_last_cmd_vel;
 
+	dynamic_reconfigure::Server<neo_local_planner::NeoLocalPlannerConfig> m_reconfigure_server;
+	dynamic_reconfigure::Server<neo_local_planner::NeoLocalPlannerConfig>::CallbackType m_reconfigure_CB;
 };
 
 

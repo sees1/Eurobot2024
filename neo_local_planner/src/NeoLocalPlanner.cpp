@@ -161,6 +161,8 @@ double compute_max_line_cost(	costmap_2d::Costmap2DROS* cost_map_ros,
 
 NeoLocalPlanner::NeoLocalPlanner()
 {
+	m_reconfigure_CB = boost::bind(&NeoLocalPlanner::reconfigureCB, this, _1, _2);
+	m_reconfigure_server.setCallback(m_reconfigure_CB);
 }
 
 NeoLocalPlanner::~NeoLocalPlanner()
@@ -832,5 +834,51 @@ void NeoLocalPlanner::odomCallback(const nav_msgs::Odometry::ConstPtr& msg)
 	m_odometry = msg;
 }
 
+void NeoLocalPlanner::reconfigureCB(NeoLocalPlannerConfig& config, uint32_t level)
+{
+	m_limits.acc_lim_x = config.acc_lim_x;
+	m_limits.acc_lim_y = config.acc_lim_y;
+	m_limits.acc_lim_theta = config.acc_lim_theta;
+	m_limits.acc_lim_trans = config.acc_limit_trans;
+	m_limits.max_vel_x = config.max_vel_x;
+	m_limits.max_vel_y = config.max_vel_y;
+	m_limits.min_vel_theta = config.min_rot_vel;
+	m_limits.max_vel_theta = config.max_rot_vel;
+	m_limits.min_vel_trans = config.min_trans_vel;
+	m_limits.max_vel_trans = config.max_trans_vel;
+	m_limits.theta_stopped_vel = config.rot_stopped_vel;
+	m_limits.trans_stopped_vel = config.trans_stopped_vel;
+	m_limits.yaw_goal_tolerance = config.yaw_goal_tolerance;
+	m_limits.xy_goal_tolerance = config.xy_goal_tolerance;
 
+
+
+	m_goal_tune_time = config.goal_tune_time;		// [s]
+	m_lookahead_time = config.lookahead_time;		// [s]
+	m_lookahead_dist = config.lookahead_dist;		// [m]
+	m_start_yaw_error = config.start_yaw_error;		// [rad]
+	m_pos_x_gain = config.pos_x_gain;			// [1/s]
+	m_pos_y_gain = config.pos_y_gain;			// [1/s]
+	m_pos_y_yaw_gain = config.pos_y_yaw_gain;		// [rad/s^2]
+	m_yaw_gain = config.yaw_gain;				// [1/s]
+	m_static_yaw_gain = config.static_yaw_gain;		// [1/s]
+	m_cost_x_gain = config.cost_x_gain;
+	m_cost_y_gain = config.cost_y_gain;
+	m_cost_y_yaw_gain = config.cost_y_yaw_gain;
+	m_cost_y_lookahead_dist = config.cost_y_lookahead_dist;	// [m]
+	m_cost_y_lookahead_time = config.cost_y_lookahead_time;	// [s]
+	m_cost_yaw_gain = config.cost_yaw_gain;
+	m_low_pass_gain = config.low_pass_gain;
+	m_max_curve_vel = config.max_curve_vel;			// [rad/s]
+	m_max_goal_dist = config.max_goal_dist;			// [m]
+	m_max_backup_dist = config.max_backup_dist;		// [m]
+	m_max_cost = config.max_cost;				// [1]
+	m_min_stop_dist = config.min_stop_dist;			// [m]
+	m_emergency_acc_lim_x = config.emergency_acc_lim_x;	// [m/s^2]
+
+  m_enable_software_stop = config.enable_software_stop;
+  m_differential_drive = config.differential_drive;
+  m_constrain_final = config.constrain_final;
+  m_allow_reversing = config.allow_reversing;
+}
 } // neo_local_planner

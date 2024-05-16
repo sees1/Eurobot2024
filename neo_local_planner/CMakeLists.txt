@@ -25,15 +25,14 @@ find_package(catkin REQUIRED
             tf2_geometry_msgs
         )
 
+generate_dynamic_reconfigure_options(
+   cfg/NeoPlanner.cfg
+)
+
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
 )
-
-## dynamic reconfigure
-#generate_dynamic_reconfigure_options(
-#    cfg/NeoPlanner.cfg
-#)
 
 catkin_package(
     INCLUDE_DIRS include
@@ -49,8 +48,8 @@ catkin_package(
 )
 
 add_library(neo_local_planner src/NeoLocalPlanner.cpp)
-add_dependencies(neo_local_planner ${catkin_EXPORTED_TARGETS})
-target_link_libraries(neo_local_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_LIBRARIES})
+target_link_libraries(neo_local_planner ${catkin_LIBRARIES})
+add_dependencies(neo_local_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_gencfg})
 
 install(TARGETS neo_local_planner
        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
