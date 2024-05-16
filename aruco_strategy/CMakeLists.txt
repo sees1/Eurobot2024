@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   actionlib
   actionlib_msgs
+  move_base_msgs
   geometry_msgs
 )
 
@@ -133,7 +134,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(aruco_strategy  src/main.cpp)
 
-add_executable(button_check src/button_condition.cpp)
+add_executable(button_check src/button_check.cpp)
 add_executable(push_plan    src/push_plan.cpp)
 
 add_dependencies(aruco_strategy ${aruco_strategy_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

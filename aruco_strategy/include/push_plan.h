@@ -7,10 +7,6 @@
 
 #include <string>
 
-
-enum Status {RUNNING, SUCCESS, FAILURE};  // BT return status
-
-
 class PlanPusher
 {
 protected:
@@ -24,15 +20,13 @@ protected:
   geometry_msgs::Point target_point_;
 
 public:
+  enum Status {RUNNING, SUCCESS, FAILURE};  // BT return status
+
+public:
   explicit PlanPusher(std::string name);
   ~PlanPusher() {}
 
   void execCB(const behavior_tree_core::BTGoalConstPtr &goal);
-
-  void moveBaseDoneCB(const actionlib::SimpleClientGoalState& state,
-                      const move_base_msgs::MoveBaseResult::ConstPtr& result);
-  void moveBaseFeedbackCB(const move_base_msgs::MoveBaseFeedback::ConstPtr& feedback);
-  void moveBaseActiveCB();
 
   void setStatus(int status);
 };
