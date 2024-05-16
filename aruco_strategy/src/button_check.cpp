@@ -55,7 +55,7 @@ void ButtonChecker::set_status(int status)
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "button_checker");
-    ROS_INFO(" Enum: %d", RUNNING);
+    ROS_INFO(" Enum: %d", ButtonChecker::RUNNING);
     ROS_INFO(" condition Ready for Ticks");
     ButtonChecker bt_action(ros::this_node::getName());
     ros::spin();

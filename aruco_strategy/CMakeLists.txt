@@ -134,13 +134,15 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(aruco_strategy  src/main.cpp)
 
-add_executable(button_check src/button_check.cpp)
-add_executable(push_plan    src/push_plan.cpp)
+add_executable(button_check      src/button_check.cpp)
+add_executable(push_plan         src/push_plan.cpp)
+add_executable(unmanaged_control src/unmanaged_control.cpp)
 
 add_dependencies(aruco_strategy ${aruco_strategy_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_dependencies(button_check ${button_check_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(push_plan    ${push_plan_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(button_check      ${button_check_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(push_plan         ${push_plan_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(unmanaged_control ${unmanaged_control_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -159,6 +161,9 @@ target_link_libraries(button_check
   ${catkin_LIBRARIES}
 )
 target_link_libraries(push_plan
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(unmanaged_control
   ${catkin_LIBRARIES}
 )
 
