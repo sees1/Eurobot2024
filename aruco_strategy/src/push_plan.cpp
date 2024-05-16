@@ -18,6 +18,22 @@
 
 #include <string>
 
+void PlanPusher::moveBaseDoneCB (const actionlib::SimpleClientGoalState& state,
+                                 const move_base_msgs::MoveBaseResult::ConstPtr& result)
+{
+  ROS_INFO("move_base finished in state [%s]", state.toString().c_str());
+  this->setStatus(SUCCESS);
+}
+void PlanPusher::moveBaseFeedbackCB (const move_base_msgs::MoveBaseFeedback::ConstPtr& feedback)
+{
+  ROS_INFO("Got Feedback from move_base");
+}
+
+void PlanPusher::moveBaseActiveCB ()
+{
+  ROS_INFO("Goal from move_base just went active");
+}
+
 PlanPusher::PlanPusher(std::string name) :
     as_(nh_, name, boost::bind(&PlanPusher::execCB, this, _1), false),
     ac_("move_base", true),
@@ -75,31 +91,6 @@ void PlanPusher::execCB(const behavior_tree_core::BTGoalConstPtr &goal)
     // Build the destination message (geometry_msgs::PoseStamped)
     move_base_msgs::MoveBaseGoal goal_point;
 
-  //   auto moveBaseDoneCB ={[](const actionlib::SimpleClientGoalState &state,
-	// 				const map_action::TakeMapResult::ConstPtr &result)
-  //         {
-
-  //         }};
-
-
-  //   	auto doneCb{[&](const actionlib::SimpleClientGoalState &state,
-	// 				const map_action::TakeMapResult::ConstPtr &result)
-	// 			{
-	// 				ROS_INFO("Finished in state [%s]", state.toString().c_str());
-	// 				FidArray = result->fiducial_map;
-	// 			}};
-
-	// auto activeCb{[]()
-	// 			  {
-	// 				  ROS_INFO("Goal just went active");
-	// 			  }};
-
-	// auto feedbackCb{[](const map_action::TakeMapFeedback::ConstPtr &feedback)
-	// 				{
-	// 					ROS_INFO("Got Feedback: %d", feedback->parser_error);
-	// 				}};
-
-    //Goal (geometry_msgs/PoseStamped)
     goal_point.target_pose.header.frame_id = "map";
     goal_point.target_pose.header.stamp = ros::Time::now();
     goal_point.target_pose.pose.position.x = target_point_.x;
@@ -110,22 +101,11 @@ void PlanPusher::execCB(const behavior_tree_core::BTGoalConstPtr &goal)
     goal_point.target_pose.pose.orientation.z = 0.0;
     goal_point.target_pose.pose.orientation.w = 1.0;
 
-    auto moveBaseDoneCB {[&](const actionlib::SimpleClientGoalState& state,
-                      const move_base_msgs::MoveBaseResult::ConstPtr& result)
-                      {
-                        ROS_INFO("move_base finished in state [%s]", state.toString().c_str());
-                        this->setStatus(SUCCESS);
-                      }};
-    auto moveBaseFeedbackCB {[](const move_base_msgs::MoveBaseFeedback::ConstPtr& feedback)
-                          {
-                            ROS_INFO("Got Feedback from move_base");
-                          }};
-    auto moveBaseActiveCB {[]()
-                        {
-                          ROS_INFO("Goal from move_base just went active");
-                        }};
+    using namespace std::placeholders;
 
-    ac_.sendGoal(goal_point, moveBaseDoneCB, moveBaseActiveCB, moveBaseFeedbackCB);
+    ac_.sendGoal(goal_point, std::bind(&PlanPusher::moveBaseDoneCB,     this, std::placeholders::_1, std::placeholders::_2), 
+                             std::bind(&PlanPusher::moveBaseActiveCB,   this),
+                             std::bind(&PlanPusher::moveBaseFeedbackCB, this, std::placeholders::_1));
 
     ac_.waitForResult();
 }

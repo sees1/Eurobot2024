@@ -28,5 +28,10 @@ public:
 
   void execCB(const behavior_tree_core::BTGoalConstPtr &goal);
 
+  void moveBaseDoneCB(const actionlib::SimpleClientGoalState& state,
+                      const move_base_msgs::MoveBaseResult::ConstPtr& result);
+  void moveBaseFeedbackCB(const move_base_msgs::MoveBaseFeedback::ConstPtr& feedback);
+  void moveBaseActiveCB();
+
   void setStatus(int status);
 };
