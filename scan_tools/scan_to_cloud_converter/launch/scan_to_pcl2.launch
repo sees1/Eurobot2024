@@ -1,0 +1,3 @@
+<launch>
+  <node name="scan_to_pcl2" pkg="scan_to_cloud_converter" type="scan_to_cloud_converter_node" respawn="true"/>
+</launch>
