@@ -836,6 +836,7 @@ void NeoLocalPlanner::odomCallback(const nav_msgs::Odometry::ConstPtr& msg)
 
 void NeoLocalPlanner::reconfigureCB(NeoLocalPlannerConfig& config, uint32_t level)
 {
+	boost::mutex::scoped_lock lock(m_odometry_mutex);
 	m_limits.acc_lim_x = config.acc_lim_x;
 	m_limits.acc_lim_y = config.acc_lim_y;
 	m_limits.acc_lim_theta = config.acc_lim_theta;
