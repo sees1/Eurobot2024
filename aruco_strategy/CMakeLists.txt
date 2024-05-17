@@ -15,6 +15,9 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib_msgs
   move_base_msgs
   geometry_msgs
+  pcl_ros
+  tf2_ros
+  nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
