@@ -8,7 +8,7 @@
     <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom_link" args="0.0 0.0 0 0 0 0 map odom" />
 
     <include file="$(find aruco_robot)/launch/map_callibration.launch" />
-    <include file="$(find aruco_to_robot_pose)/launch/robot_pose.launch" />
+    <include file="$(find aruco_robot)/launch/robot_pose.launch" />
     <include file="$(find aruco_robot)/launch/ekf.launch" />
 
 </launch>
