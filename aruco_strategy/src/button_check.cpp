@@ -8,7 +8,7 @@ ButtonChecker::ButtonChecker(std::string name) :
     // start the action server (action in sense of Actionlib not BT action)
     as_.start();
     ROS_INFO("Condition Server Started");
-    button_subscriber_ = nh_.subscribe("/start_flag", 1, &ButtonChecker::button_callback, this);
+    button_subscriber_ = nh_.subscribe("/start_engine", 1, &ButtonChecker::button_callback, this);
 }
 
 void ButtonChecker::execute_callback(const behavior_tree_core::BTGoalConstPtr &goal)
@@ -55,7 +55,7 @@ void ButtonChecker::set_status(int status)
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "button_checker");
-    ROS_INFO(" Enum: %d", RUNNING);
+    ROS_INFO(" Enum: %d", ButtonChecker::RUNNING);
     ROS_INFO(" condition Ready for Ticks");
     ButtonChecker bt_action(ros::this_node::getName());
     ros::spin();

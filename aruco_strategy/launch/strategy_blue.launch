@@ -1,5 +1,8 @@
 <launch>
-  <node name="button_checker"        pkg="aruco_strategy" type="button_checker_cond"/>
-  <node name="mb1_action"
+  <node name="button_checker"        pkg="aruco_strategy" type="button_check"/>
+  <node name="mb1_action"            pkg="aruco_strategy" type="push_plan">
+    <param name="target_point_x" value="0.0"/>
+    <param name="target_point_y" value="1.0"/>
+  </node>
   <node name="strategy_control_loop" pkg="aruco_strategy" type="aruco_strategy" />
 </launch>

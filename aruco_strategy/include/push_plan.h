@@ -7,10 +7,6 @@
 
 #include <string>
 
-
-enum Status {RUNNING, SUCCESS, FAILURE};  // BT return status
-
-
 class PlanPusher
 {
 protected:
@@ -22,6 +18,9 @@ protected:
   behavior_tree_core::BTResult result_;
 
   geometry_msgs::Point target_point_;
+
+public:
+  enum Status {RUNNING, SUCCESS, FAILURE};  // BT return status
 
 public:
   explicit PlanPusher(std::string name);

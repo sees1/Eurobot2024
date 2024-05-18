@@ -6,9 +6,6 @@
 #include <string>
 
 
-enum Status {RUNNING, SUCCESS, FAILURE};
-
-
 class ButtonChecker
 {
 protected:
@@ -22,6 +19,9 @@ protected:
     behavior_tree_core::BTResult result_;
 
     bool is_pressed;
+
+public:
+    enum Status {RUNNING, SUCCESS, FAILURE};  // BT return status
 
 public:
     explicit ButtonChecker(std::string name);
