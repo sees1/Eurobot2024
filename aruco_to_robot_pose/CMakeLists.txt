@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   aruco_opencv_msgs
   geometry_msgs
+  tf2
+  tf2_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -128,9 +130,8 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(aruco_robot_convertor  src/aruco_robot_convertor.cpp)
-
-add_dependencies(aruco_robot_convertor ${aruco_strategy_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(aruco_robot_convertor ${catkin_LIBRARIES})
+add_dependencies(aruco_robot_convertor ${aruco_strategy_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use

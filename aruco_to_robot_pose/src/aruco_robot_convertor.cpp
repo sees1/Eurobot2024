@@ -5,19 +5,18 @@
 #include <aruco_opencv_msgs/MarkerPose.h>
 
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
+#include <geometry_msgs/TransformStamped.h>
+
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <geometry_msgs/Quaternion.h>
+
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
 
 
 class ArucoRobotConvertor
 {
-public:
-  ArucoRobotConvertor();
-  ~ArucoRobotConvertor() {};
-
-  void arucoCallback(const aruco_opencv_msgs::ArucoDetection::ConstPtr& msg);
-
-  void CalcMainPose(const aruco_opencv_msgs::MarkerPose& msg);
-  void CalcSlavePose(const aruco_opencv_msgs::MarkerPose& msg);
-
 public:
   ros::NodeHandle nh_;
 
@@ -29,18 +28,37 @@ public:
 
   geometry_msgs::PoseWithCovarianceStamped ground_true_pose;
 
-  ros::Subscriber aruco_detect_sub;
+  ros::Timer pose_calculate_timer;
+
+  tf2_ros::Buffer* tf_buffer;
+  tf2_ros::TransformListener* tf_listener;
+  std::vector<geometry_msgs::TransformStamped> transforms;
+
   ros::Publisher  robot_pose_pub;
+
+public:
+  ArucoRobotConvertor();
+  ~ArucoRobotConvertor() {};
+
+  void arucoCallback(const ros::TimerEvent& event);
+
+  void CalcMainPose(const geometry_msgs::TransformStamped& msg);
+  void CalcSlavePose(const geometry_msgs::TransformStamped& msg);
+
 };
 
-ArucoRobotConvertor::ArucoRobotConvertor() : slave_ids(4), handle_main_quat(false), pose_covariance(36)
+ArucoRobotConvertor::ArucoRobotConvertor() : nh_("~"), slave_ids(4), handle_main_quat(false), pose_covariance(36),
+                                             transforms(5)
 {
-  aruco_detect_sub = nh_.subscribe("aruco_detections", 1, &ArucoRobotConvertor::arucoCallback, this);
-  robot_pose_pub   = nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("robot_pose_aruco", 1);
+  pose_calculate_timer = nh_.createTimer(ros::Duration(0.1), &ArucoRobotConvertor::arucoCallback, this);
+  robot_pose_pub = nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("/robot_pose_aruco", 1);
 
-  nh_.getParam("main_id",         main_id);
-  nh_.getParam("slave_ids",       slave_ids);
-  nh_.getParam("pose_covariance", pose_covariance);
+  tf_buffer = new tf2_ros::Buffer();
+  tf_listener = new tf2_ros::TransformListener(*tf_buffer);
+
+  nh_.getParam("main_id", main_id);
+  nh_.param("slave_ids", slave_ids, slave_ids);
+  nh_.param("pose_covariance", pose_covariance, pose_covariance);
 
   main_quaternion.x = 0.0;
   main_quaternion.y = 0.0;
@@ -48,53 +66,92 @@ ArucoRobotConvertor::ArucoRobotConvertor() : slave_ids(4), handle_main_quat(fals
   main_quaternion.w = 1.0;
 }
 
-void ArucoRobotConvertor::arucoCallback(const aruco_opencv_msgs::ArucoDetection::ConstPtr& msg)
+void ArucoRobotConvertor::arucoCallback(const ros::TimerEvent& event)
 {
-  for(auto marker : msg->markers)
+  std::array<bool, 5> can_transform = {false, false, false, false, false};
+
+  can_transform[0] = tf_buffer->canTransform("map", "marker_" + std::to_string(main_id), ros::Time(0));
+
+  for(int i = 1; i <= slave_ids.size(); i++)
   {
-    if(marker.marker_id == main_id)
-    {
-      CalcMainPose(marker);
-    }
-    else if(marker.marker_id == slave_ids[0] ||
-            marker.marker_id == slave_ids[1] ||
-            marker.marker_id == slave_ids[2] ||
-            marker.marker_id == slave_ids[3])
-    {
-      CalcSlavePose(marker);
-    }
+    can_transform[i] = tf_buffer->canTransform("map", "marker_" + std::to_string(slave_ids[i]), ros::Time(0));
   }
+
+  if(can_transform[0])
+    transforms[0] = tf_buffer->lookupTransform("map", "marker_" + std::to_string(main_id), ros::Time(0));
+
+  for(int i = 1; i <= slave_ids.size(); i++)
+  {
+    if (can_transform[i])
+      transforms[0] = tf_buffer->lookupTransform("map", "marker_" + std::to_string(slave_ids[i]), ros::Time(0));
+  }
+
+  auto sortPredicate{[](const geometry_msgs::TransformStamped& lhs, const geometry_msgs::TransformStamped& rhs)
+                    {
+                      return lhs.header.stamp < rhs.header.stamp;
+                    }};
+
+  std::sort(transforms.begin(), transforms.end(), sortPredicate);
+
+  if(transforms[0].child_frame_id == "marker_" + std::to_string(main_id))
+  {
+    CalcMainPose(transforms[0]);
+  }
+  else if(transforms[0].child_frame_id == "marker_" + std::to_string(slave_ids[0]) ||
+          transforms[0].child_frame_id == "marker_" + std::to_string(slave_ids[1]) ||
+          transforms[0].child_frame_id == "marker_" + std::to_string(slave_ids[2]) ||
+          transforms[0].child_frame_id == "marker_" + std::to_string(slave_ids[3]))
+  {
+    CalcSlavePose(transforms[0]);
+  }
+
+  robot_pose_pub.publish(ground_true_pose);
 }
 
-void ArucoRobotConvertor::CalcMainPose(const aruco_opencv_msgs::MarkerPose& msg)
+void ArucoRobotConvertor::CalcMainPose(const geometry_msgs::TransformStamped& msg)
 {
-  ground_true_pose.pose.pose.position.x = msg.pose.position.x;
-  ground_true_pose.pose.pose.position.y = msg.pose.position.y;
-  ground_true_pose.pose.pose.position.z = 0;
-
-  ground_true_pose.pose.pose.orientation.x = msg.pose.orientation.x;
-  ground_true_pose.pose.pose.orientation.y = msg.pose.orientation.y;
-  ground_true_pose.pose.pose.orientation.z = msg.pose.orientation.z;
-  ground_true_pose.pose.pose.orientation.w = msg.pose.orientation.w;
-
   if (!handle_main_quat)
   {
-    main_quaternion.x = msg.pose.orientation.x;
-    main_quaternion.y = msg.pose.orientation.y;
-    main_quaternion.z = msg.pose.orientation.z;
-    main_quaternion.w = msg.pose.orientation.w;
+    double roll, pitch, yaw;
+    tf2::Quaternion tfq(msg.transform.rotation.x,
+                      msg.transform.rotation.y,
+                      msg.transform.rotation.z,
+                      msg.transform.rotation.w);
+
+    tf2::Matrix3x3(tfq).getRPY(roll, pitch, yaw);
+
+    tfq.setRPY(0, 0, yaw);
+    tfq = tfq.normalize();
+
+    main_quaternion.x = tfq.x();
+    main_quaternion.y = tfq.y();
+    main_quaternion.z = tfq.z();
+    main_quaternion.w = tfq.w();
 
     handle_main_quat = true;
   }
+  
+  ground_true_pose.header.frame_id = "map";
+  ground_true_pose.header.stamp = ros::Time::now();
+  ground_true_pose.pose.pose.position.x = msg.transform.translation.x;
+  ground_true_pose.pose.pose.position.y = msg.transform.translation.y;
+  ground_true_pose.pose.pose.position.z = 0;
+
+  ground_true_pose.pose.pose.orientation.x = main_quaternion.x;
+  ground_true_pose.pose.pose.orientation.y = main_quaternion.y;
+  ground_true_pose.pose.pose.orientation.z = main_quaternion.z;
+  ground_true_pose.pose.pose.orientation.w = main_quaternion.w;
 
   std::memcpy(ground_true_pose.pose.covariance.data(), pose_covariance.data(), pose_covariance.size()*sizeof(double));
   // ground_true_pose.pose.covariance.data() = pose_covariance.data();
 }
 
-void ArucoRobotConvertor::CalcSlavePose(const aruco_opencv_msgs::MarkerPose& msg)
+void ArucoRobotConvertor::CalcSlavePose(const geometry_msgs::TransformStamped& msg)
 {
-  ground_true_pose.pose.pose.position.x = msg.pose.position.z - 0.045;
-  ground_true_pose.pose.pose.position.y = msg.pose.position.y;
+  ground_true_pose.header.frame_id = "map";
+  ground_true_pose.header.stamp = ros::Time::now();
+  ground_true_pose.pose.pose.position.x = msg.transform.translation.x - 0.045;
+  ground_true_pose.pose.pose.position.y = msg.transform.translation.y;
   ground_true_pose.pose.pose.position.z = 0;
 
   ground_true_pose.pose.pose.orientation.x = main_quaternion.x;
@@ -109,7 +166,7 @@ void ArucoRobotConvertor::CalcSlavePose(const aruco_opencv_msgs::MarkerPose& msg
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "aruco_robot_convertor");
-  ArucoRobotConvertor aruco_robot_convertor;
+  ArucoRobotConvertor* aruco_robot_convertor = new ArucoRobotConvertor();
   ros::spin();
   return 0;
 }

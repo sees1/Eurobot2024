@@ -12,6 +12,8 @@
   <depend>roscpp</depend>
   <depend>aruco_opencv_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

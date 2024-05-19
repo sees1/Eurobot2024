@@ -1,0 +1,8 @@
+<launch>
+  <rosparam file="$(find aruco_robot)/config/common.yaml" command="load" ns="" />
+
+  <node name="aruco_robot_convertor" pkg="aruco_to_robot_pose" type="aruco_robot_convertor" respawn="true">
+    <param name="main_id" value=1/>
+    <rosparam param="slave_ids"> [71, 72, 73, 74] </rosparam>
+  </node>
+<launch>
