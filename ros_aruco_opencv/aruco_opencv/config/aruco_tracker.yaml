@@ -19,7 +19,7 @@ minMarkerPerimeterRate: 0.01
 maxMarkerPerimeterRate: 0.48 # ОБЯЗАТЕЛЬНО ПОМЕНЯТЬ!
 # значение ошибки - относительно размера маркера (Perimeter * approxAccuracyRate = кол-во пикселей
 # на которое может ошибиться апроксимация метки в полигон)
-polygonalApproxAccuracyRate: 0.02
+polygonalApproxAccuracyRate: 0.08
 # значение минимальной границы метки, относительно периметра метки (Perimeter * minCornerDistanceRate = minCorner)
 minCornerDistanceRate: 0.0575
 # значение минимального расстояния между границами любых двух различных меток. Если параметр слишком мал и метки 
