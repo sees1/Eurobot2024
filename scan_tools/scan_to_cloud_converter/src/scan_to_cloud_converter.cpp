@@ -39,9 +39,9 @@ ScanToCloudConverter::ScanToCloudConverter(ros::NodeHandle nh, ros::NodeHandle n
 {
   ROS_INFO("Starting ScanToCloudConverter");
 
-  invalid_point_.x = std::numeric_limits<float>::quiet_NaN();
-  invalid_point_.y = std::numeric_limits<float>::quiet_NaN();
-  invalid_point_.z = std::numeric_limits<float>::quiet_NaN();
+  invalid_point_.x = std::numeric_limits<float>::max();
+  invalid_point_.y = std::numeric_limits<float>::max();
+  invalid_point_.z = std::numeric_limits<float>::max();
 
   cloud_publisher_ = nh_.advertise<PointCloudT>(
     "cloud", 1); 
