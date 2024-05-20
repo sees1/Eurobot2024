@@ -4,11 +4,11 @@
   <rosparam file="$(find aruco_robot)/config/common.yaml" command="load" ns="" />
 
     <!-- Map server -->
-    <arg name="map_file" default="$(find aruco_robot)/map/map_1.yaml"/>
+    <!-- <arg name="map_file" default="$(find aruco_robot)/map/map_1.yaml"/> -->
 
-    <node pkg="map_server" name="map_server"  type="map_server" args="$(arg map_file)">
+    <!-- <node pkg="map_server" name="map_server"  type="map_server" args="$(arg map_file)">
       <param name="frame_id" value="earth"/>
-    </node>
+    </node> -->
 
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">

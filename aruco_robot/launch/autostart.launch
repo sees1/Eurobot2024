@@ -5,6 +5,7 @@
 
   <include file="$(find aruco_robot)/launch/localization.launch" />
   <include file="$(find aruco_robot)/launch/move_base.launch" />
+  <include file="$(find process_pcl2)/launch/process_pcl2.launch"/>
   <!-- <include file="$(find aruco_strategy)/launch/strategy_blue.launch"/> -->
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find aruco_robot)/rviz/default.rviz" />

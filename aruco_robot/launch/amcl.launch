@@ -4,7 +4,9 @@
   <arg name="map_file" default="map_1.yaml"/>
   <arg name="map_path" default ="$(find aruco_robot)/map"/>
 
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file)" />
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_path)/$(arg map_file)">
+    <param name="frame_id" value="earth"/>
+  </node>
 
   <!-- Arguments -->
   <arg name="scan_topic"     default="/scan"/>
@@ -31,7 +33,8 @@
     <param name="gui_publish_rate"          value="50.0"/>
 
     <remap from="scan"                      to="$(arg scan_topic)"/>
-    <param name="laser_max_range"           value="5"/>
+    <param name="laser_min_range"           value="-1"/>
+    <param name="laser_max_range"           value="1.5"/>
     <param name="laser_max_beams"           value="520"/>
     <param name="laser_z_hit"               value="0.95"/>
     <param name="laser_z_short"             value="0.005"/>
