@@ -52,6 +52,9 @@ class ScanToCloudConverter
     ros::Publisher cloud_publisher_;
     ros::Subscriber scan_subscriber_;
 
+    double range_min;
+    double range_max;
+
     PointT invalid_point_;
 
     void scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan_msg);

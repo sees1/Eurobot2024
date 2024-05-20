@@ -43,6 +43,9 @@ ScanToCloudConverter::ScanToCloudConverter(ros::NodeHandle nh, ros::NodeHandle n
   invalid_point_.y = std::numeric_limits<float>::max();
   invalid_point_.z = std::numeric_limits<float>::max();
 
+  nh_private.param<double>("range_min", range_min, -1.0);
+  nh_private.param<double>("range_max", range_max,  5.0);
+
   cloud_publisher_ = nh_.advertise<PointCloudT>(
     "cloud", 1); 
   scan_subscriber_ = nh_.subscribe(
@@ -65,7 +68,7 @@ void ScanToCloudConverter::scanCallback(const sensor_msgs::LaserScan::ConstPtr& 
   {
     PointT& p = cloud_msg->points[i];
     float range = scan_msg->ranges[i];
-    if (range > scan_msg->range_min && range < scan_msg->range_max)
+    if (range > range_min && range < range_max)
     {
       float angle = scan_msg->angle_min + i*scan_msg->angle_increment;
 
