@@ -1,3 +1,9 @@
 <launch>
-  <node name="cloud_processing" type="process_pcl2" pkg="process_pcl2" respawn="true" output="screen"/>
+  <node name="cloud_processing" type="process_pcl2" pkg="process_pcl2" respawn="true" output="screen">
+    <param name="padding"     value="0.0"/>
+    <param name="min_point_x" value="-2.0"/>
+    <param name="min_point_y" value="-2.0"/>
+    <param name="max_point_x" value="0.2"/>
+    <param name="max_point_y" value="0.2"/>
+  </node>
 </launch>
