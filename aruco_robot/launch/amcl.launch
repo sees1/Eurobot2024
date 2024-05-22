@@ -10,7 +10,7 @@
 
   <!-- Arguments -->
   <arg name="scan_topic"     default="/scan"/>
-  <arg name="initial_pose_x" default="0.0"/>
+  <arg name="initial_pose_x" default="1.2"/>
   <arg name="initial_pose_y" default="0.0"/>
   <arg name="initial_pose_a" default="0.0"/>
 
@@ -34,7 +34,7 @@
 
     <remap from="scan"                      to="$(arg scan_topic)"/>
     <param name="laser_min_range"           value="-1"/>
-    <param name="laser_max_range"           value="1.5"/>
+    <param name="laser_max_range"           value="4"/>
     <param name="laser_max_beams"           value="520"/>
     <param name="laser_z_hit"               value="0.95"/>
     <param name="laser_z_short"             value="0.005"/>
@@ -50,11 +50,11 @@
     <param name="odom_alpha3"               value="0.005"/>
     <param name="odom_alpha4"               value="0.005"/>
 
-    <param name="tf_broadcast"              value="false"/>
+    <param name="tf_broadcast"              value="true"/>
 
-    <param name="odom_frame_id" value="odom"/>
+    <param name="odom_frame_id" value="base_link"/>
     <param name="base_frame_id" value="base_link"/>
-    <param name="global_frame_id"   value="map"/>
+    <param name="global_frame_id"   value="odom"/>
   </node>
 
 </launch>
