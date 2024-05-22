@@ -3,7 +3,8 @@
 ButtonChecker::ButtonChecker(std::string name) :
     as_(nh_, name, boost::bind(&ButtonChecker::execute_callback, this, _1), false),
     action_name_(name),
-    is_pressed(false)
+    is_pressed(false),
+    shoot_once(false)
 {
     // start the action server (action in sense of Actionlib not BT action)
     as_.start();
@@ -14,9 +15,10 @@ ButtonChecker::ButtonChecker(std::string name) :
 void ButtonChecker::execute_callback(const behavior_tree_core::BTGoalConstPtr &goal)
 {
     ROS_INFO("im in goal loop in button_checker node");
-    if (is_pressed)
+    if (is_pressed && !shoot_once)
     {
         set_status(SUCCESS);
+        shoot_once = true;
     }
     else
     {
@@ -54,7 +56,7 @@ void ButtonChecker::set_status(int status)
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "button_checker");
+    ros::init(argc, argv, ros::this_node::getName());
     ROS_INFO(" Enum: %d", ButtonChecker::RUNNING);
     ROS_INFO(" condition Ready for Ticks");
     ButtonChecker bt_action(ros::this_node::getName());

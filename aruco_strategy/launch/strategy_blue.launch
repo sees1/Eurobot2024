@@ -1,8 +1,39 @@
 <launch>
   <node name="button_checker"        pkg="aruco_strategy" type="button_check"/>
-  <node name="mb1_action"            pkg="aruco_strategy" type="push_plan">
-    <param name="target_point_x" value="0.0"/>
-    <param name="target_point_y" value="1.0"/>
+  <node name="uc_action0"            pkg="aruco_strategy" type="unmanaged_control">
+    <param name="velocity_x" value="0.1"/>
+    <param name="velocity_y" value="0.0"/>
+    <param name="duration"   value="1.5"/>
+  </node>
+  <node name="uc_action"             pkg="aruco_strategy" type="unmanaged_control">
+    <param name="velocity_x" value="0.0"/>
+    <param name="velocity_y" value="-0.2"/>
+    <param name="duration"   value="10.0"/>
+  </node>
+  <node name="uc_action1"            pkg="aruco_strategy" type="unmanaged_control">
+    <param name="velocity_x" value="-0.1"/>
+    <param name="velocity_y" value="0.0"/>
+    <param name="duration"   value="2.0"/>
+  </node>
+  <node name="uc_action2"            pkg="aruco_strategy" type="unmanaged_control">
+    <param name="velocity_x" value="0.0"/>
+    <param name="velocity_y" value="0.2"/>
+    <param name="duration"   value="8.0"/>
+  </node>
+  <node name="uc_action3"            pkg="aruco_strategy" type="unmanaged_control">
+    <param name="velocity_x" value="0.0"/>
+    <param name="velocity_y" value="-0.2"/>
+    <param name="duration"   value="2.0"/>
+  </node>
+  <node name="uc_action4"            pkg="aruco_strategy" type="unmanaged_control">
+    <param name="velocity_x" value="-0.2"/>
+    <param name="velocity_y" value="0.0"/>
+    <param name="duration"   value="7.0"/>
+  </node>
+  <node name="uc_action5"            pkg="aruco_strategy" type="unmanaged_control">
+    <param name="velocity_x" value="0.0"/>
+    <param name="velocity_y" value="0.2"/>
+    <param name="duration"   value="3.5"/>
   </node>
   <node name="strategy_control_loop" pkg="aruco_strategy" type="aruco_strategy" />
 </launch>

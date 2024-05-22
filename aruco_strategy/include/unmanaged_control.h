@@ -25,57 +25,33 @@
 #include <string>
 #include <cmath>
 
-class SafetyController
-{
-private:
-  ros::NodeHandle nh_s;
-  ros::Subscriber cloud_sub = nh_s.subscribe("/cloud", 1, &SafetyController::safetyCB, this);
+#include <thread>
+#include <mutex>
 
-  tf2_ros::Buffer* tf_buffer;
-  tf2_ros::TransformListener* tf_listener;
-
-  sensor_msgs::PointCloud2 front_cloud;
-  nav_msgs::Odometry::ConstPtr odom;
-
-  bool safety_stop;
-
-public:
-  struct Cluster
-  {
-    std::pair<double, double> xy_cord;
-    double intensity;
-    double i_max;
-    double i_min;
-    double stdev;
-    int saturation;
-  };
-
-public:
-  SafetyController(std::string name);
-  ~SafetyController() {}
-
-  void safetyCB(const sensor_msgs::PointCloud2::ConstPtr& msg);
-  void odomCB(const nav_msgs::Odometry::ConstPtr& msg);
-
-  bool isStop();
-};
 
 class UnmanagedControl
 {
 protected:
   ros::NodeHandle nh_;
+  ros::NodeHandle pnh_;
   actionlib::SimpleActionServer<behavior_tree_core::BTAction> as_;
   std::string action_name_;
   behavior_tree_core::BTFeedback feedback_;
   behavior_tree_core::BTResult result_;
 
-  SafetyController safety_;
-
-  ros::Publisher cmd_vel_pub_;
+  ros::Publisher  cmd_vel_pub;
+  ros::Subscriber near_point_sub;
 
   double velocity_x;
   double velocity_y;
   double duration;
+
+  // is it time for stop?
+  bool  safety_stop;
+
+  ros::WallTime begin;
+
+  // mutex internal_mutex;
 
 public:
   enum Status {RUNNING, SUCCESS, FAILURE};  // BT return status
@@ -85,6 +61,9 @@ public:
   ~UnmanagedControl() {}
 
   void execCB(const behavior_tree_core::BTGoalConstPtr &goal);
+  void nearPointCB(const geometry_msgs::Point::ConstPtr &point);
+
+  bool isTimeToStop();
 
   void setStatus(int status);
 };

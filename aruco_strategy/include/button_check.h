@@ -19,6 +19,7 @@ protected:
     behavior_tree_core::BTResult result_;
 
     bool is_pressed;
+    bool shoot_once;
 
 public:
     enum Status {RUNNING, SUCCESS, FAILURE};  // BT return status
