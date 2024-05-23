@@ -97,13 +97,13 @@ class Odom():
 
         self.integrate()
 
-        # flag = int(b[3])
-        # if flag == 0:
-        #     self.start_flag.data = True
-        # else:
-        #     self.start_flag.data = False
+        flag = int(b[3])
+        if flag == 0:
+            self.start_flag.data = True
+        else:
+            self.start_flag.data = False
 
-        self.start_pub.publish(True)
+        self.start_pub.publish(self.start_flag)
 
 
 if __name__ == '__main__':
