@@ -5,7 +5,7 @@
     <rosparam command="load" file="$(find autorun)/config/scan_matcher.yml" />
 
     <include file="$(find driver_interaction)/launch/driver_connection.launch"/>
-    <include file="$(find rplidar_ros)/launch/rplidar_s2.launch"/>
+    <include file="$(find rplidar_ros)/launch/rplidar_a3.launch"/>
     <include file="$(find scan_to_cloud_converter)/launch/scan_to_pcl2.launch"/>
     <include file="$(find wt901)/launch/wt901_calib.launch"/>
     <include file="$(find wt901)/launch/wt901.launch"/>
