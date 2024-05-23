@@ -4,11 +4,11 @@ import rospy
 
 import actionlib
 
-from liftAction.msg import InterfaceAction,InterfaceResult, InterfaceFeedback
+from lift_action.msg import InterfaceAction,InterfaceResult, InterfaceFeedback
 
 import serial
 
-class LiftAction(object):
+class lift_action(object):
     # create messages that are used to publish feedback/result
     _feedback =InterfaceFeedback()
     _result = InterfaceResult()
@@ -16,7 +16,7 @@ class LiftAction(object):
 
     def __init__(self, name):
         self._action_name = name
-        self._as = actionlib.SimpleActionServer("LiftAction", InterfaceAction, execute_cb=self.execute_cb, auto_start = False)
+        self._as = actionlib.SimpleActionServer("lift_action", InterfaceAction, execute_cb=self.execute_cb, auto_start = False)
         self._as.start()
         self.serial = serial.Serial("/dev/ttyACM1",115200, timeout = 1.0)
       
@@ -47,5 +47,5 @@ class LiftAction(object):
         
 if __name__ == '__main__':
     rospy.init_node('LiftAction_node')
-    server = LiftAction(rospy.get_name())
+    server = lift_action(rospy.get_name())
     rospy.spin()
