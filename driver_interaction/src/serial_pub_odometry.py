@@ -98,7 +98,7 @@ class Odom():
         self.integrate()
 
         flag = int(b[3])
-        if flag == 0:
+        if flag == 1:
             self.start_flag.data = True
         else:
             self.start_flag.data = False
