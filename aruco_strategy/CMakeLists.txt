@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   tf2_ros
   nav_msgs
+  lift_action
 )
 
 ## System dependencies are found with CMake's conventions
@@ -135,17 +136,23 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(aruco_strategy  src/main.cpp)
+add_executable(aruco_strategy_blue    src/main_blue.cpp)
+add_executable(aruco_strategy_yellow  src/main_yellow.cpp)
+add_executable(aruco_strategy_gomo    src/main_gomo.cpp)
 
 add_executable(button_check      src/button_check.cpp)
 add_executable(push_plan         src/push_plan.cpp)
-add_executable(unmanaged_control src/unmanaged_control.cpp)
+add_executable(safety_control    src/safety_control.cpp)
+add_executable(gripper_move      src/gripper_move.cpp)
 
-add_dependencies(aruco_strategy ${aruco_strategy_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(aruco_strategy_blue ${aruco_strategy_blue_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(aruco_strategy_yellow ${aruco_strategy_yellow_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(aruco_strategy_gomo ${aruco_strategy_gomo_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_dependencies(button_check      ${button_check_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(push_plan         ${push_plan_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(unmanaged_control ${unmanaged_control_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(safety_control    ${safety_control_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(gripper_move      ${gripper_move_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -157,7 +164,13 @@ add_dependencies(unmanaged_control ${unmanaged_control_EXPORTED_TARGETS} ${catki
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(aruco_strategy
+target_link_libraries(aruco_strategy_blue
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(aruco_strategy_yellow
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(aruco_strategy_gomo
   ${catkin_LIBRARIES}
 )
 target_link_libraries(button_check
@@ -166,7 +179,10 @@ target_link_libraries(button_check
 target_link_libraries(push_plan
   ${catkin_LIBRARIES}
 )
-target_link_libraries(unmanaged_control
+target_link_libraries(safety_control
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(gripper_move
   ${catkin_LIBRARIES}
 )
 

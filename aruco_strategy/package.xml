@@ -24,6 +24,7 @@
   <depend>nav_msgs</depend>
   <depend>pcl_ros</depend>
   <depend>tf2_ros</depend>
+  <depend>lift_action</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
