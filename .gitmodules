@@ -1,0 +1,16 @@
+[submodule "csm"]
+	path = csm
+	url = https://github.com/sees1/csm.git
+[submodule "ros_aruco_opencv"]
+	path = ros_aruco_opencv
+	url = https://github.com/fictionlab/ros_aruco_opencv.git
+	branch = noetic
+[submodule "ROS-Behavior-Tree"]
+	path = ROS-Behavior-Tree
+	url = https://github.com/miccol/ROS-Behavior-Tree.git
+[submodule "rplidar_ros"]
+	path = rplidar_ros
+	url = https://github.com/Slamtec/rplidar_ros.git
+[submodule "scan_tools"]
+	path = scan_tools
+	url = https://github.com/CCNYRoboticsLab/scan_tools.git
