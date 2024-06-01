@@ -1,0 +1,60 @@
+cam_base_topic: usb_cam/image_raw
+image_is_rectified: false
+output_frame: ''
+marker_dict: 4X4_100
+
+publish_tf: true
+marker_size: 0.1
+image_queue_size: 1
+
+# Dynamically reconfigurable Detector parameters
+# https://docs.opencv.org/4.2.0/d5/dae/tutorial_aruco_detection.html
+adaptiveThreshWinSizeMin: 3
+adaptiveThreshWinSizeMax: 22
+adaptiveThreshWinSizeStep: 4
+adaptiveThreshConstant: 3.5
+minMarkerPerimeterRate: 0.01
+# максимальное значение размера маркера на изображении (в пикселях)
+# значение >= 4 начинает учитывать все прямоугольный контура - плохо для производительности
+maxMarkerPerimeterRate: 0.48 # ОБЯЗАТЕЛЬНО ПОМЕНЯТЬ!
+# значение ошибки - относительно размера маркера (Perimeter * approxAccuracyRate = кол-во пикселей
+# на которое может ошибиться апроксимация метки в полигон)
+polygonalApproxAccuracyRate: 0.08
+# значение минимальной границы метки, относительно периметра метки (Perimeter * minCornerDistanceRate = minCorner)
+minCornerDistanceRate: 0.0575
+# значение минимального расстояния между границами любых двух различных меток. Если параметр слишком мал и метки 
+# слишком близки, то метка с меньшим Perimeter будет откинута
+minMarkerDistanceRate: 0.026
+# минимальное расстояние от любого угла любой метки до границы изображения. Для точной локализации, не рекомендуется
+# распологать метки в близи границы изображения
+minDistanceToBorder: 5 # default = 3, in pixels
+# размер бита при разбиении на сетку, должен совпадать с размером бита, при создании метки
+# те с размером использующемся в generateImageMarker() функции
+#BITS EXTRACTION PARAMETERS
+markerBorderBits: 1
+minOtsuStdDev: 4.0 #default = 5.0
+# значительно увеличивает точность вычисления на этапе битовой сетки до некоторого значения
+# будем посмотреть - поменять 
+perspectiveRemovePixelPerCell: 4
+# снижение размера границы одной ячейки (те если ячейка была 40*40 бит то после снижения станет
+# 40*0.13 + 40*0.13 = 10.4 те ячейка будет учитывать только 29.6 бит внутри себя для определения цвета
+# ячейки ). Параметр нужен, когда перспективая у маркера съезжает и черные пиксели заходят на белые и наооборт
+# и если учитывать все 40*40 бит, то выходит что у одной ячейки может быть два цвета (например белый в середке
+# и черный по краям от другой съехавшей ячейки)
+perspectiveRemoveIgnoredMarginPerCell: 0.13
+# количество белых ячеек относительно общего числа ячеек.
+maxErroneousBitsInBorderRate: 0.35 # default = 0.35
+#MARKER IDENTIFICATION PARAMETERS
+# Возможности для исправления ошибок, зависит от количества пикселей разрешенных к исправлению 
+# в ячейке (те от Dictionary.maxCorrectionBits). 1 - использовать все корректирующие биты
+# 0.6 использовать только 60 процентов возможностей исправления (обрезают с целью уменьшения)
+# ложно-положительных результатов
+errorCorrectionRate: 0.6
+cornerRefinementMethod: 2 # 0 - None, 1 - Subpix, 2 - Contour, 3 - Apriltag
+# более высокое значение ( не больше 0.6) - более точное вычисление границ метки
+cornerRefinementWinSize: 2 #default = 0.3
+# количество итераций процесса определения границ метки, чем больше - тем лучше, но влияет на перформанс
+cornerRefinementMaxIterations: 73 #default = 30
+# ошибка ниже которой прекращается вычисление границы метки. По сути threshold для процесса определения
+# границ метки.
+cornerRefinementMinAccuracy: 0.1

@@ -1,0 +1,5 @@
+<launch>
+    <rosparam command="load" file="$(find driver_interaction)/config/common.yml" />
+    <node name="odom_pub" pkg="driver_interaction" type="serial_pub_odometry.py" output="screen" respawn="true"/>
+    <node name="vel_write" pkg="driver_interaction" type="serial_write_vel.py"    output="screen" respawn="true"/>
+</launch>

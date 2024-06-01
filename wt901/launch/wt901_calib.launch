@@ -1,4 +1,0 @@
-<launch>
-    <rosparam command="load" file="$(find wt901)/config/wt901.yml" />
-    <node name="wt901_calib" pkg="wt901"  type="wt901_calibration.py" output="screen"/>
-</launch>

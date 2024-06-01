@@ -1,0 +1,38 @@
+<launch>
+  <param name="/use_sim_time" value="true"/>
+
+  <node name="rosbag" pkg="rosbag" type="play" output="log" args="--clock  $(find aruco_robot)/bag/2024-05-20-05-45-33.bag" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_laser" args="0 0 0.6 0 0 0 base_link laser" />
+
+  <include file="$(find scan_to_cloud_converter)/launch/scan_to_pcl2.launch"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="imu_to_base_link" args="0 0 0 0 0 0 base_link imu" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="earth_to_map_link" args="0.75 0.5 0 0 0 0 earth map" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom_link" args="0 0 0 0 0 0 map odom" />
+
+  <include file="$(find process_pcl2)/launch/process_pcl2.launch">
+    <param name="field_x_lenght" value="4"/>
+    <param name="field_y_lenght" value="4"/>
+  </include>
+
+  <include file="$(find aruco_robot)/launch/amcl.launch"/>
+      <!-- <include file="$(find aruco_robot)/launch/amcl.launch"/>
+    <include file="$(find aruco_robot)/launch/ekf.launch"/> -->
+<!-- 
+  <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+
+
+  <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+    <remap from="~input" to="/cloud" />
+      <rosparam>
+       filter_field_name: x
+       filter_limit_min: 0.01
+       filter_limit_max: 2.5
+       filter_limit_negative: False
+       leaf_size: 0.01
+      </rosparam>
+  </node> -->
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find aruco_robot)/rviz/default.rviz" />
+
+</launch>

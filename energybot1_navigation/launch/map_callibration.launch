@@ -1,0 +1,8 @@
+<launch>    
+
+    <include file="$(find aruco_robot)/launch/camera_start.launch" />
+    <include file="$(find aruco_opencv)/launch/aruco_tracker.launch" />
+
+    <node pkg="aruco_robot" type="map_publisher.py" name="map_publisher" output="screen" />
+
+</launch>

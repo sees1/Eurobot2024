@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>energybot1_tools</name>
+  <version>1.0.0</version>
+  <description>common tools for work with energybot1</description>
+
+  <author email="sewa.egorov@yandex.ru">Vsevolod Egorov</author>
+  <maintainer email="sewa.egorov@yandex.ru">Vsevolod Egorov</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>process_pcl2</exec_depend>
+  <exec_depend>aruco_to_robot_pose</exec_depend>
+  <exec_depend>timer_check</exec_depend>
+
+  <export>
+    <metapackage />
+  </export>
+</package>

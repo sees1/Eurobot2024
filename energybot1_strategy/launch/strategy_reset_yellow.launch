@@ -1,0 +1,73 @@
+<launch>
+  <node name="button_checker" pkg="aruco_strategy" type="button_check"/>
+  <node name="g_action"       pkg="aruco_strategy" type="gripper_move">
+    <param name="Height_signal" value="2"/>
+    <param name="isUp_signal"   value="2"/>
+  </node>
+  <node name="sc_action0"     pkg="aruco_strategy" type="safety_control">
+    <param name="velocity_x"  value="0.1"/>
+    <param name="velocity_y"  value="0.0"/>
+    <param name="duration"    value="1.5"/>
+    <param name="lidar_event" value="1"/>
+    <param name="stop_event"  value="1"/>
+  </node>
+  <node name="sc_action1"     pkg="aruco_strategy" type="safety_control">
+    <param name="velocity_x"      value="0.0"/>
+    <param name="velocity_y"      value="-0.2"/>
+    <param name="duration"        value="8.0"/>
+    <param name="safety_distance" value="0.5"/>
+    <param name="padding"         value="0.0"/>
+    <param name="min_point_x"     value="-2.5"/>
+    <param name="min_point_y"     value="-2.5"/>
+    <param name="max_point_x"     value="0.2"/>
+    <param name="max_point_y"     value="0.2"/>
+    <param name="lidar_event"     value="0"/>
+    <param name="stop_event"      value="1"/>
+  </node>
+  <node name="g_action1"      pkg="aruco_strategy" type="gripper_move">
+    <param name="Height_signal" value="0"/>
+    <param name="isUp_signal"   value="2"/>
+  </node>
+  <node name="g_action2"      pkg="aruco_strategy" type="gripper_move">
+    <param name="Height_signal" value="1"/>
+    <param name="isUp_signal"   value="2"/>
+  </node>
+  <node name="sc_action2"     pkg="aruco_strategy" type="safety_control">
+    <param name="velocity_x"  value="-0.1"/>
+    <param name="velocity_y"  value="0.1"/>
+    <param name="duration"    value="2.0"/>
+    <param name="lidar_event" value="1"/>
+    <param name="stop_event"  value="1"/>
+  </node>
+  <node name="ts_action0"     pkg="aruco_strategy" type="timer_stop">
+    <param name="duration"   value="30"/>
+  </node>
+  <node name="sc_action3"     pkg="aruco_strategy" type="safety_control">
+    <param name="velocity_x"      value="0.0"/>
+    <param name="velocity_y"      value="0.2"/>
+    <param name="duration"        value="8.0"/>
+    <param name="safety_distance" value="0.5"/>
+    <param name="padding"         value="0.0"/>
+    <param name="min_point_x"     value="-0.6"/>
+    <param name="min_point_y"     value="-0.0"/>
+    <param name="max_point_x"     value="0.7"/>
+    <param name="max_point_y"     value="2.2"/>
+    <param name="lidar_event"     value="0"/>
+    <param name="stop_event"      value="1"/>
+  </node>
+  <node name="sc_action4"     pkg="aruco_strategy" type="safety_control">
+    <param name="velocity_x"  value="0.0"/>
+    <param name="velocity_y"  value="-0.2"/>
+    <param name="duration"    value="2.0"/>
+    <param name="lidar_event" value="1"/>
+    <param name="stop_event"  value="1"/>
+  </node>
+  <node name="sc_action5"     pkg="aruco_strategy" type="safety_control">
+    <param name="velocity_x"  value="-0.2"/>
+    <param name="velocity_y"  value="0.0"/>
+    <param name="duration"    value="6.7"/>
+    <param name="lidar_event" value="1"/>
+    <param name="stop_event"  value="1"/>
+  </node>
+  <node name="strategy_control_loop" pkg="aruco_strategy" type="energybot1_strategy_reset_yellow"/>
+</launch>

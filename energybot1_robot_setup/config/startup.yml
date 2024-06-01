@@ -1,0 +1,20 @@
+rplidarNode:
+  serial_port: /dev/lidUSB
+
+wt901:
+  port: /dev/imuUSB
+  orientation_covariance: [
+    0.01, 0,    0,
+    0,    0.01, 0,
+    0,    0,    0.01
+  ]
+  linear_acceleration_covariance: [
+    0.0364, 0,      0,
+    0,      0.0048, 0,
+    0,      0,      0.0796
+  ]
+  angular_velocity_covariance: [
+    0.4,  0,    0,
+    0,    0.4,  0,
+    0,    0,    0.4
+  ]

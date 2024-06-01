@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>energybot1</name>
+  <version>1.0.0</version>
+  <description>
+    ROS packages for the EnergyBot1 for Eurobot 2024 competition (meta package)
+  </description>
+  <license>Apache 2.0</license>
+  <license>BSD</license>
+  <author email="sewa.egorov@yandex.ru">Vsevolod Egorov</author>
+  <author email="rslvklmc@gmail.com">Yaroslav Kolomiec</author>
+  <author email="laptash95@gmail.com">Grigoriy Laptashkin</author>
+  <author email="email@todo.com">Igor Duchinskiy</author>
+  <maintainer email="sewa.egorov@yandex.ru">Vsevolod Egorov</maintainer>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>csm</exec_depend>
+  <exec_depend>neo_local_planner</exec_depend>
+  <exec_depend>behavior_tree</exec_depend>
+  <exec_depend>rplidar_ros</exec_depend>
+  <exec_depend>scan_tools</exec_depend>
+  <exec_depend>energybot1_tools</exec_depend>
+  <exec_depend>energybot1_teleop</exec_depend>
+  <exec_depend>energybot1_opencv</exec_depend>
+  <exec_depend>energybot1_imu</exec_depend>
+  <exec_depend>energybot1_lift</exec_depend>
+  <exec_depend>energybot1_driver_interaction</exec_depend>
+  <exec_depend>energybot1_navigation</exec_depend>
+  <exec_depend>energybot1_strategy</exec_depend>
+  <exec_depend>energybot1_robot_setup</exec_depend>
+  <export><metapackage/></export>
+</package>

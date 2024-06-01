@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>energybot1_strategy</name>
+  <version>1.0.0</version>
+  <description>energybot1 strategies list</description>
+
+  <author     email="sewa.egorov@yandex.ru">Vsevolod Egorov</author>
+  <maintainer email="sewa.egorov@yandex.ru">Vsevolod Egorov</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <exec_depend>rospy</exec_depend>
+
+  <depend>behavior_tree_core</depend>
+  <depend>behavior_tree_leaves</depend>
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>move_base_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>pcl_ros</depend>
+  <depend>tf2_ros</depend>
+  <depend>energybot1_lift</depend>
+
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

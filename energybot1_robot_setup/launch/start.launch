@@ -1,0 +1,13 @@
+<launch>
+    <rosparam command="load" file="$(find autorun)/config/startup.yml" />
+
+    <include file="$(find driver_interaction)/launch/driver_connection.launch"/>
+    <include file="$(find scan_to_cloud_converter)/launch/scan_to_pcl2.launch"/>
+    <!-- DO NOT FORGET TO CALIBRATE IMU FIRST! -->
+    <include file="$(find wt901)/launch/wt901_calib.launch"/>
+    <include file="$(find wt901)/launch/wt901.launch"/>
+
+    <node pkg="lift_action" type="action.py" name="gripper_action_node" output="screen"/>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_lser_static_tf" args="0.0 0.0 0.6 1.047 0.0 0.0 base_link laser"/>
+</launch>
