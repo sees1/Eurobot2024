@@ -139,20 +139,28 @@ include_directories(
 add_executable(aruco_strategy_blue    src/main_blue.cpp)
 add_executable(aruco_strategy_yellow  src/main_yellow.cpp)
 add_executable(aruco_strategy_gomo    src/main_gomo.cpp)
+add_executable(aruco_strategy_ne_robot_yel src/main_ne_robot_yel.cpp)
+add_executable(aruco_strategy_reset_blue   src/main_reset_blue.cpp)
+add_executable(aruco_strategy_reset_yellow src/main_reset_yellow.cpp)
 
 add_executable(button_check      src/button_check.cpp)
 add_executable(push_plan         src/push_plan.cpp)
 add_executable(safety_control    src/safety_control.cpp)
 add_executable(gripper_move      src/gripper_move.cpp)
+add_executable(timer_stop        src/timer_stop.cpp)
 
 add_dependencies(aruco_strategy_blue ${aruco_strategy_blue_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(aruco_strategy_yellow ${aruco_strategy_yellow_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(aruco_strategy_gomo ${aruco_strategy_gomo_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(aruco_strategy_ne_robot_yel ${aruco_strategy_ne_robot_yel_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(aruco_strategy_reset_blue ${aruco_strategy_reset_blue_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(aruco_strategy_reset_yellow ${aruco_strategy_reset_yellow_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_dependencies(button_check      ${button_check_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(push_plan         ${push_plan_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(safety_control    ${safety_control_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(gripper_move      ${gripper_move_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(timer_stop        ${timer_stop_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -173,6 +181,15 @@ target_link_libraries(aruco_strategy_yellow
 target_link_libraries(aruco_strategy_gomo
   ${catkin_LIBRARIES}
 )
+target_link_libraries(aruco_strategy_ne_robot_yel
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(aruco_strategy_reset_blue
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(aruco_strategy_reset_yellow
+  ${catkin_LIBRARIES}
+)
 target_link_libraries(button_check
   ${catkin_LIBRARIES}
 )
@@ -183,6 +200,9 @@ target_link_libraries(safety_control
   ${catkin_LIBRARIES}
 )
 target_link_libraries(gripper_move
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(timer_stop
   ${catkin_LIBRARIES}
 )
 
