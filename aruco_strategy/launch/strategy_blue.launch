@@ -14,7 +14,7 @@
   <node name="sc_action1"     pkg="aruco_strategy" type="safety_control">
     <param name="velocity_x" value="0.0"/>
     <param name="velocity_y" value="0.2"/>
-    <param name="duration"   value="8.0"/>
+    <param name="duration"   value="9.5"/>
     <param name="safety_distance" value="0.5"/>
     <param name="padding"     value="0.0"/>
     <param name="min_point_x" value="-1.6"/>
@@ -62,7 +62,7 @@
   <node name="sc_action5"     pkg="aruco_strategy" type="safety_control">
     <param name="velocity_x" value="-0.2"/>
     <param name="velocity_y" value="0.0"/>
-    <param name="duration"   value="6.0"/>
+    <param name="duration"   value="6.7"/>
     <param name="lidar_event" value="1"/>
     <param name="stop_event"  value="1"/>
   </node>
