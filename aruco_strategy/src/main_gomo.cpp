@@ -15,11 +15,12 @@ int main(int argc, char** argv)
     BT::ROSAction*    g   = new BT::ROSAction("g_action");
     BT::ROSAction*    uc0 = new BT::ROSAction("sc_action0");
     BT::ROSAction*    uc1 = new BT::ROSAction("sc_action1");
+    BT::ROSAction*    uc2 = new BT::ROSAction("sc_action2");
     BT::ROSAction*    g1  = new BT::ROSAction("g_action1");
     BT::ROSAction*    g2  = new BT::ROSAction("g_action2");
-    BT::ROSAction*    uc2 = new BT::ROSAction("sc_action2");
-    BT::ROSAction*    uc3 = new BT::ROSAction("sc_action3");
-    BT::ROSAction*    uc4 = new BT::ROSAction("sc_action4");
+    // BT::ROSAction*    uc2 = new BT::ROSAction("sc_action3");
+    BT::ROSAction*    uc3 = new BT::ROSAction("sc_action4");
+    BT::ROSAction*    uc4 = new BT::ROSAction("sc_action5");
     // BT::ROSAction*    mb2 = new BT::ROSAction("mb2_action");
 
     root->AddChild(cond);
